@@ -37,9 +37,8 @@ export default defineConfig({
     },
   ],
   server: {
-    host: '0.0.0.0', // Permite acceso desde cualquier IP
-    port: 3000, // Puerto fijo para desarrollo
-    strictPort: true, // Si está ocupado, falla en lugar de cambiar
-    open: false, // No abrir automáticamente
+    host: true, // escucha en 0.0.0.0 - accesible por localhost y por IP
+    port: 5173,
+    strictPort: false,
   },
 })
