@@ -22,8 +22,13 @@ import { Clinica } from './pages/Clinica'
 import { Sum } from './pages/Sum'
 import { Idiomas } from './pages/Idiomas'
 import { Notificaciones } from './pages/Notificaciones'
+import { Tutorias } from './pages/verticales/edu/Tutorias'
+import { Entretenimiento } from './pages/verticales/biz/Entretenimiento'
 import { AppLayout } from './components/AppLayout'
+import { AdminLayout } from './components/AdminLayout'
 import { Landing } from './pages/Landing'
+import { AdminDashboard } from './pages/admin/AdminDashboard'
+import { NuevaOrganizacionWizard } from './pages/admin/NuevaOrganizacionWizard'
 
 const queryClient = new QueryClient()
 
@@ -38,6 +43,10 @@ function App() {
               <Route path="/registro" element={<Register />} />
               <Route path="/olvide-contrasena" element={<OlvideContrasena />} />
               <Route path="/" element={<Landing />} />
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="nueva-organizacion" element={<NuevaOrganizacionWizard />} />
+              </Route>
               <Route
                 element={
                   <ProtectedRoute>
@@ -61,6 +70,8 @@ function App() {
                 <Route path="/notificaciones" element={<Notificaciones />} />
                 <Route path="/noticias" element={<Noticias />} />
                 <Route path="/comunidad" element={<Comunidad />} />
+                <Route path="/tutorias" element={<Tutorias />} />
+                <Route path="/entretenimiento" element={<Entretenimiento />} />
               </Route>
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>

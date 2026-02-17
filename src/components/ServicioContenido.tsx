@@ -13,6 +13,8 @@ const RUTAS: Partial<Record<ServicioClave, string>> = {
   clinica: '/clinica',
   sum: '/sum',
   idiomas: '/idiomas',
+  tutorias: '/tutorias',
+  entretenimiento: '/entretenimiento',
 }
 
 const DETALLE: Partial<Record<ServicioClave, { items: string[]; destacado?: string }>> = {
@@ -52,12 +54,21 @@ const DETALLE: Partial<Record<ServicioClave, { items: string[]; destacado?: stri
     items: ['Guía del ingresante', 'Ubicación de facultades', 'Servicios por zona'],
     destacado: 'En desarrollo',
   },
+  tutorias: {
+    items: ['Solicitud de citas con tutores', 'Seguimiento académico', 'Recursos de apoyo'],
+    destacado: 'HaiEduCore',
+  },
+  entretenimiento: {
+    items: ['Calendario de eventos', 'Espacios de descanso', 'Actividades para colaboradores'],
+    destacado: 'HaiBizFlow',
+  },
 }
 
 export function ServicioContenido({ servicio }: ServicioContenidoProps) {
   const ruta = RUTAS[servicio.clave]
   const detalle = DETALLE[servicio.clave]
   const enDesarrollo = servicio.clave === 'aula-virtual' || servicio.clave === 'mapa'
+  const rutaTutoriasEntretenimiento = servicio.clave === 'tutorias' || servicio.clave === 'entretenimiento'
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -101,9 +112,9 @@ export function ServicioContenido({ servicio }: ServicioContenidoProps) {
           <p className="text-sm text-amber-700 bg-amber-50 rounded-lg px-4 py-3 mb-4">
             Este servicio está en desarrollo y estará disponible próximamente.
           </p>
-        ) : ruta ? (
+        ) : (ruta || rutaTutoriasEntretenimiento) ? (
           <Link
-            to={ruta}
+            to={ruta ?? (servicio.clave === 'tutorias' ? '/tutorias' : '/entretenimiento')}
             className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium text-white transition-colors hover:opacity-90"
             style={{ backgroundColor: servicio.color }}
           >

@@ -8,6 +8,8 @@ export type ServicioClave =
   | 'aula-virtual'
   | 'gimnasio'
   | 'mapa'
+  | 'tutorias'
+  | 'entretenimiento'
 
 export interface Servicio {
   clave: ServicioClave
@@ -89,6 +91,22 @@ export const SERVICIOS: Servicio[] = [
     icono: '🗺️',
     color: '#0891b2',
     descripcion: 'Guía del ingresante, ubicaciones',
+    activo: true,
+  },
+  {
+    clave: 'tutorias',
+    nombre: 'Tutorías',
+    icono: '🎓',
+    color: '#7c3aed',
+    descripcion: 'Tutorías y seguimiento académico con docentes',
+    activo: true,
+  },
+  {
+    clave: 'entretenimiento',
+    nombre: 'Entretenimiento',
+    icono: '🎉',
+    color: '#eab308',
+    descripcion: 'Eventos, actividades y bienestar para colaboradores',
     activo: true,
   },
 ]

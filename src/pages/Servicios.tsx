@@ -1,23 +1,26 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Header } from '../components/Header'
 import { ServicioContenido } from '../components/ServicioContenido'
-import { SERVICIOS } from '../constants/servicios'
+import { getServiciosPorOrg } from '../constants/serviciosResolucion'
+import { useOrg } from '../context/OrgContext'
 import type { ServicioClave } from '../constants/servicios'
 
 export function Servicios() {
+  const { modulosActivos } = useOrg()
+  const servicios = useMemo(() => getServiciosPorOrg(modulosActivos), [modulosActivos])
   const { state } = useLocation()
   const inicial = (state as { servicio?: ServicioClave })?.servicio
   const [seleccionado, setSeleccionado] = useState<ServicioClave>(
-    inicial && SERVICIOS.some((s) => s.clave === inicial) ? inicial : SERVICIOS[0].clave
+    inicial && servicios.some((s) => s.clave === inicial) ? inicial : servicios[0]?.clave
   )
 
   useEffect(() => {
-    if (inicial && SERVICIOS.some((s) => s.clave === inicial)) {
+    if (inicial && servicios.some((s) => s.clave === inicial)) {
       setSeleccionado(inicial)
     }
-  }, [inicial])
-  const servicioActual = SERVICIOS.find((s) => s.clave === seleccionado)!
+  }, [inicial, servicios])
+  const servicioActual = servicios.find((s) => s.clave === seleccionado)
 
   return (
     <div className="min-h-screen bg-gray-100 pb-20 md:pb-0">
@@ -27,7 +30,7 @@ export function Servicios() {
           {/* Sidebar secundario */}
           <aside className="lg:w-72 flex-shrink-0">
             <nav className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible">
-              {SERVICIOS.map((s) => (
+              {servicios.map((s) => (
                 <button
                   key={s.clave}
                   onClick={() => setSeleccionado(s.clave)}
@@ -62,7 +65,13 @@ export function Servicios() {
 
           {/* Contenido principal */}
           <div className="flex-1 min-w-0">
-            <ServicioContenido servicio={servicioActual} />
+            {servicioActual ? (
+              <ServicioContenido servicio={servicioActual} />
+            ) : (
+              <div className="bg-white rounded-xl p-6 text-gray-500">
+                No hay servicios configurados para esta organización. Active módulos en el panel de administración.
+              </div>
+            )}
           </div>
         </div>
 

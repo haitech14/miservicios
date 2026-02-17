@@ -1,0 +1,78 @@
+// HaiServices / Mi Servicios - Multi-org con verticales y módulos
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Vertical {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  nombre      String
+  descripcion String?
+  perfil      String
+  destinatarios String?
+  modulos     Modulo[]
+}
+
+model Modulo {
+  id            String   @id @default(cuid())
+  clave         String
+  nombre        String
+  verticalId    String
+  vertical      Vertical @relation(fields: [verticalId], references: [id], onDelete: Cascade)
+  esBase        Boolean  @default(false)
+  icono         String?
+  descripcion   String?
+  @@unique([verticalId, clave])
+}
+
+model Organization {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  nombre        String
+  logoUrl       String?
+  primaryColor  String?   @default("#1a365d")
+  secondaryColor String?
+  dominioEmail  String?
+  terminologia  String?   // universidad | centro | empresa | gimnasio | clinica | comunidad | facility
+  verticalSlug  String    // HaiEduCore | HaiBizFlow | HaiActive | HaiCare | HaiCommunity | HaiFacility
+  productSlug  String?   // opcional sub-marca para URLs
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  config        OrgConfig?
+  users         User[]
+}
+
+model OrgConfig {
+  id             String       @id @default(cuid())
+  organizationId String       @unique
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  // JSON: { "vertical": "HaiEduCore", "base": ["estudiantes", ...], "adicionales": ["tutorias", ...] }
+  modulosBase    String       // JSON array de claves
+  modulosAdicionales String   // JSON array de claves
+  branding       String?      // JSON opcional
+  integraciones  String?      // JSON opcional
+}
+
+model User {
+  id               String       @id @default(cuid())
+  organizationId   String
+  organization     Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  codigoBeneficiario String?
+  email            String
+  passwordHash     String?
+  dni              String?
+  apellidos        String?
+  nombres          String?
+  facultadOuArea   String?
+  carreraOuCargo   String?
+  celular          String?
+  fijo             String?
+  fotoUrl          String?
+  rol              String       @default("beneficiario") // beneficiario | admin | superadmin
+  createdAt        DateTime     @default(now())
+}

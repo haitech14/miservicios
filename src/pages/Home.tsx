@@ -1,10 +1,14 @@
+import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Header } from '../components/Header'
 import { HomeSidebar } from '../components/HomeSidebar'
-import { SERVICIOS } from '../constants/servicios'
+import { getServiciosPorOrg } from '../constants/serviciosResolucion'
+import { useOrg } from '../context/OrgContext'
 import { getStoredTickets } from '../store/ticketStore'
 
 export function Home() {
+  const { modulosActivos } = useOrg()
+  const servicios = useMemo(() => getServiciosPorOrg(modulosActivos), [modulosActivos])
   const tickets = getStoredTickets().filter((t) => t.estado === 'activo')
   const today = new Date().toISOString().split('T')[0]
   const ticketsHoy = tickets.filter((t) => t.fecha === today)
@@ -43,10 +47,10 @@ export function Home() {
               </div>
               {/* Móvil: carrusel horizontal */}
               <div className="overflow-x-auto pb-2 -mx-4 px-4 flex gap-3 md:hidden">
-                {SERVICIOS.filter((s) => s.activo).map((s) => (
+                {servicios.map((s) => (
                   <Link
                     key={s.clave}
-                    to={s.clave === 'comedor' ? '/comedor' : s.clave === 'transporte' ? '/transporte' : s.clave === 'gimnasio' ? '/gimnasio' : '#'}
+                    to={s.clave === 'comedor' ? '/comedor' : s.clave === 'transporte' ? '/transporte' : s.clave === 'gimnasio' ? '/gimnasio' : s.clave === 'tutorias' ? '/tutorias' : s.clave === 'entretenimiento' ? '/entretenimiento' : '#'}
                     className="flex-shrink-0 w-24 flex flex-col items-center gap-2"
                   >
                     <div
@@ -61,10 +65,10 @@ export function Home() {
               </div>
               {/* Web: grid de iconos */}
               <div className="hidden md:grid md:grid-cols-4 lg:grid-cols-5 gap-4">
-                {SERVICIOS.filter((s) => s.activo).map((s) => (
+                {servicios.map((s) => (
                   <Link
                     key={s.clave}
-                    to={s.clave === 'comedor' ? '/comedor' : s.clave === 'transporte' ? '/transporte' : s.clave === 'gimnasio' ? '/gimnasio' : '#'}
+                    to={s.clave === 'comedor' ? '/comedor' : s.clave === 'transporte' ? '/transporte' : s.clave === 'gimnasio' ? '/gimnasio' : s.clave === 'tutorias' ? '/tutorias' : s.clave === 'entretenimiento' ? '/entretenimiento' : '#'}
                     className="flex flex-col items-center gap-2 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
                   >
                     <div
