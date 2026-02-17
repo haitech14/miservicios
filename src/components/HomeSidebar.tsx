@@ -31,9 +31,10 @@ function MiniCalendario() {
   const firstDay = new Date(year, month, 1).getDay()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
   const offset = firstDay === 0 ? 6 : firstDay - 1
-  const dias = Array.from({ length: offset }, () => null).concat(
-    Array.from({ length: daysInMonth }, (_, i) => i + 1)
-  )
+  const dias: (number | null)[] = [
+    ...Array.from({ length: offset }, () => null),
+    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+  ]
 
   return (
     <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">

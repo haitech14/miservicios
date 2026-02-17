@@ -79,7 +79,7 @@ export function Gamificacion() {
   const { user } = useAuth()
   const [perfil, setPerfil] = useState<any>(null)
   const [logros, setLogros] = useState<any[]>([])
-  const [logrosDisponibles, setLogrosDisponibles] = useState<any[]>([])
+  const [, setLogrosDisponibles] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   
   // Nuevos estados

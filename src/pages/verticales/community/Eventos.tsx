@@ -152,7 +152,7 @@ export function Eventos() {
                   type="button"
                   onClick={() => {
                     setCrearEvento(false)
-                    setNuevoEvento({ titulo: '', descripcion: '', fechaInicio: '', fechaFin: '', ubicacion: '', tipo: 'social' })
+                    setNuevoEvento({ titulo: '', descripcion: '', fechaInicio: '', fechaFin: '', ubicacion: '', tipo: 'social', notificarPorCorreo: false })
                   }}
                   className="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50"
                 >

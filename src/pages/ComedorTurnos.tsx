@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { Header } from '../components/Header'
 import { SEDES_COMEDOR } from '../constants/sedes'

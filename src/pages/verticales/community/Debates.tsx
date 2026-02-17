@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Header } from '../../../components/Header'
 import { useAuth } from '../../../context/AuthContext'
-import { api } from '../../../services/api'
-
 export function Debates() {
   const { user } = useAuth()
   const [debates, setDebates] = useState<any[]>([])
@@ -60,7 +58,7 @@ export function Debates() {
     }
   }
 
-  const handleVotarArgumento = async (debateId: string, argumentoId: string, aFavor: boolean) => {
+  const handleVotarArgumento = async (_debateId: string, _argumentoId: string, _aFavor: boolean) => {
     if (!user) return
     try {
       // TODO: Implementar endpoint

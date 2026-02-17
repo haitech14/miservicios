@@ -3,7 +3,8 @@
  * Permite cargar componentes de módulos de forma dinámica
  */
 
-import { lazy, ComponentType } from 'react'
+import { lazy } from 'react'
+import type { ComponentType } from 'react'
 
 export interface ModuleDefinition {
   id: string

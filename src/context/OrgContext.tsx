@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState, useEffect } from 'react'
+import { createContext, useContext, useMemo, useState } from 'react'
 import { TERMINOLOGIA, type TipoOrganizacion } from '../constants/terminologia'
 import type { OrgConfigModulos, VerticalSlug } from '../types/verticales'
 import { modulosActivosFromConfig } from '../types/verticales'

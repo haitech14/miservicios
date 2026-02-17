@@ -7,8 +7,6 @@ import { TURNOS_COMEDOR } from '../constants/turnos'
 export function Comedor() {
   const [sedeId, setSedeId] = useState('cu')
   const navigate = useNavigate()
-  const sede = SEDES_COMEDOR.find((s) => s.id === sedeId)!
-
   const handleSelectTurno = (tipo: string) => {
     navigate(`/comedor/turnos?Sede=${sedeId}&tipo=${tipo}`)
   }

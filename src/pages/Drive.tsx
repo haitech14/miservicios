@@ -77,23 +77,9 @@ const archivosEjemplo: Archivo[] = [
   },
 ]
 
-function getIconoPorTipo(tipo: TipoArchivo): string {
-  const iconos: Record<TipoArchivo, string> = {
-    carpeta: '📁',
-    documento: '📝',
-    imagen: '🖼️',
-    video: '🎥',
-    audio: '🎵',
-    pdf: '📄',
-    'hoja-calculo': '📊',
-    presentacion: '📊',
-  }
-  return iconos[tipo] || '📄'
-}
-
 export function Drive() {
   const [vista, setVista] = useState<'grid' | 'lista'>('grid')
-  const [archivos, setArchivos] = useState<Archivo[]>(archivosEjemplo)
+  const [archivos] = useState<Archivo[]>(archivosEjemplo)
   const [carpetaActual, setCarpetaActual] = useState<string | null>(null)
 
   const archivosVisibles = carpetaActual

@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { api } from '../../services/api'
-import { AdminLayout } from '../../components/AdminLayout'
-
 export function GestionModulos() {
   const { slug } = useParams<{ slug: string }>()
   const navigate = useNavigate()
@@ -24,10 +22,8 @@ export function GestionModulos() {
   const loadData = async () => {
     try {
       setLoading(true)
-      const [org, modulosData] = await Promise.all([
-        api.organizaciones.get(slug!),
-        api.verticales.modulos(org?.verticalSlug || 'HaiCommunity'),
-      ])
+      const org = await api.organizaciones.get(slug!)
+      const modulosData = await api.verticales.modulos((org as any)?.verticalSlug || 'HaiCommunity')
 
       setOrganizacion(org)
       setModulosAdicionales((org as any).modulosActivos?.filter((m: string) => !modulosBase.includes(m)) || [])
@@ -72,14 +68,11 @@ export function GestionModulos() {
 
   if (loading) {
     return (
-      <AdminLayout>
         <div className="text-center py-12">Cargando...</div>
-      </AdminLayout>
     )
   }
 
   return (
-    <AdminLayout>
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
@@ -174,6 +167,5 @@ export function GestionModulos() {
           </button>
         </div>
       </div>
-    </AdminLayout>
   )
 }

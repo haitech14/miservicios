@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useMemo, ReactNode } from 'react'
+import { createContext, useContext, useEffect, useMemo } from 'react'
+import type { ReactNode } from 'react'
 import { useOrg } from './OrgContext'
 import { obtenerTemaPorVertical, generarTemaDinamico, type TemaColores } from '../constants/temas'
 

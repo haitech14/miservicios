@@ -63,6 +63,8 @@ export function CuadernoVirtual() {
   const [paginas, setPaginas] = useState<Pagina[]>(paginasEjemplo)
   const [paginaSeleccionada, setPaginaSeleccionada] = useState<Pagina | null>(null)
   const [nuevoBloque, setNuevoBloque] = useState('')
+  // Reservado para futuro formulario de bloques
+  void nuevoBloque; void setNuevoBloque
 
   const agregarBloque = (tipo: TipoBloque) => {
     if (!paginaSeleccionada) return

@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Header } from '../../../components/Header'
 import { useAuth } from '../../../context/AuthContext'
-import { api } from '../../../services/api'
-
 export function Encuestas() {
   const { user } = useAuth()
   const [encuestas, setEncuestas] = useState<any[]>([])

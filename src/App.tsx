@@ -66,8 +66,6 @@ const Actividades = lazy(() => import('./pages/Actividades').then(m => ({ defaul
 const Participacion = lazy(() => import('./pages/Participacion').then(m => ({ default: m.Participacion })))
 const Documentos = lazy(() => import('./pages/Documentos').then(m => ({ default: m.Documentos })))
 const Marketplace = lazy(() => import('./pages/Marketplace').then(m => ({ default: m.Marketplace })))
-const ComunicacionesFeed = lazy(() => import('./pages/ComunicacionesFeed').then(m => ({ default: m.ComunicacionesFeed })))
-
 // Lazy loading de admin
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard').then(m => ({ default: m.AdminDashboard })))
 const NuevaOrganizacionWizard = lazy(() => import('./pages/admin/NuevaOrganizacionWizard').then(m => ({ default: m.NuevaOrganizacionWizard })))

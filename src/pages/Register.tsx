@@ -20,6 +20,8 @@ function EyeIcon({ show }: { show: boolean }) {
 type Step = 'datos' | 'comunidad' | 'crear' | 'unirse'
 
 export function Register() {
+  const location = useLocation()
+  const initialState = (location.state as { step?: Step })?.step
   const [step, setStep] = useState<Step>(initialState === 'comunidad' ? 'comunidad' : 'datos')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -39,16 +41,14 @@ export function Register() {
   // Datos de comunidad
   const [comunidadNombre, setComunidadNombre] = useState('')
   const [comunidadSlug, setComunidadSlug] = useState('')
-  const [verticalSlug, setVerticalSlug] = useState('HaiCommunity')
-  const [modulosAdicionales, setModulosAdicionales] = useState<string[]>([])
+  const [verticalSlug] = useState('HaiCommunity')
+  const [modulosAdicionales] = useState<string[]>([])
   const [comunidades, setComunidades] = useState<any[]>([])
   const [busquedaComunidad, setBusquedaComunidad] = useState('')
   const [comunidadSeleccionada, setComunidadSeleccionada] = useState<string | null>(null)
 
   const { register } = useAuth()
   const navigate = useNavigate()
-  const location = useLocation()
-  const initialState = (location.state as { step?: Step })?.step
 
   // Validación en tiempo real de email
   const validateEmailDebounced = debounce((emailValue: string) => {
@@ -115,7 +115,7 @@ export function Register() {
   // Cargar módulos adicionales disponibles
   useEffect(() => {
     if (step === 'crear' && verticalSlug) {
-      api.verticales.modulos(verticalSlug).then((data) => {
+      api.verticales.modulos(verticalSlug).then(() => {
         // Los módulos adicionales se pueden seleccionar después
       }).catch(console.error)
     }

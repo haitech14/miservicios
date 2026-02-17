@@ -62,7 +62,7 @@ export function Grupos() {
     }
   }
 
-  const handleUnirse = async (grupoId: string) => {
+  const handleUnirse = async (_grupoId: string) => {
     if (!user) return
     try {
       // TODO: Implementar endpoint de unirse a grupo

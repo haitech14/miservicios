@@ -55,7 +55,7 @@ const eventosEjemplo: Evento[] = [
 export function Calendario() {
   const { user } = useAuth()
   const [fecha, setFecha] = useState(new Date())
-  const [eventos, setEventos] = useState<Evento[]>(eventosEjemplo)
+  const [eventos] = useState<Evento[]>(eventosEjemplo)
   const [eventosComunitarios, setEventosComunitarios] = useState<any[]>([])
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export function Calendario() {
     }
   }, [user])
   const [diaSeleccionado, setDiaSeleccionado] = useState<Date | null>(null)
-  const [mostrarFormulario, setMostrarFormulario] = useState(false)
+  const [, setMostrarFormulario] = useState(false)
 
   const year = fecha.getFullYear()
   const month = fecha.getMonth()
@@ -75,9 +75,10 @@ export function Calendario() {
   const firstDay = new Date(year, month, 1).getDay()
   const daysInMonth = new Date(year, month + 1, 0).getDate()
   const offset = firstDay === 0 ? 6 : firstDay - 1
-  const dias = Array.from({ length: offset }, () => null).concat(
-    Array.from({ length: daysInMonth }, (_, i) => i + 1)
-  )
+  const dias: (number | null)[] = [
+    ...Array.from({ length: offset }, () => null),
+    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+  ]
 
   const cambiarMes = (direccion: 'anterior' | 'siguiente') => {
     setFecha(new Date(year, month + (direccion === 'siguiente' ? 1 : -1), 1))
@@ -223,7 +224,7 @@ export function Calendario() {
                     <div className="font-medium">{dia || ''}</div>
                     {eventos.length > 0 && (
                       <div className="flex gap-0.5 justify-center mt-1">
-                        {eventos.slice(0, 3).map((e, idx) => (
+                        {eventos.slice(0, 3).map((_, idx) => (
                           <div
                             key={idx}
                             className="w-1.5 h-1.5 rounded-full bg-pink-500"

@@ -144,7 +144,7 @@ export function Participacion() {
     }
   }
 
-  const handleUnirseGrupo = async (grupoId: string) => {
+  const handleUnirseGrupo = async (_grupoId: string) => {
     if (!user) return
     try {
       alert(`Te has unido al grupo`)

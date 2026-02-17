@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { AdminLayout } from '../../components/AdminLayout'
 import { api } from '../../services/api'
 
 function DashboardStats({ organizaciones }: { organizaciones: any[] }) {
@@ -73,7 +72,7 @@ export function AdminDashboard() {
 
   const loadGamificacion = async () => {
     try {
-      const top = await api.gamificacion.ranking({ limite: 5 }).catch(() => [])
+      const top = await api.gamificacion.ranking(undefined, 5).catch(() => [])
       setRanking(top as any[])
     } catch (err) {
       // No bloquear el dashboard si falla la parte analítica
@@ -82,7 +81,6 @@ export function AdminDashboard() {
   }
 
   return (
-    <AdminLayout>
       <div className="max-w-4xl mx-auto p-6">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Panel de administración</h1>
         <p className="text-gray-600 mb-8">
@@ -211,6 +209,5 @@ export function AdminDashboard() {
           )}
         </div>
       </div>
-    </AdminLayout>
   )
 }

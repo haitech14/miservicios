@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 
 interface BottomSheetProps {
   isOpen: boolean
@@ -83,7 +83,7 @@ export function BottomSheet({ isOpen, onClose, children, title }: BottomSheetPro
   const translateY = Math.max(0, dragY)
 
   return (
-    <>
+    <React.Fragment>
       <div
         className="fixed inset-0 bg-black/50 z-40 transition-opacity duration-300"
         style={{ opacity: isOpen ? 1 : 0 }}
@@ -115,6 +115,6 @@ export function BottomSheet({ isOpen, onClose, children, title }: BottomSheetPro
         )}
         <div className="px-4 pb-6">{children}</div>
       </div>
-    </>
+    </React.Fragment>
   )
 }

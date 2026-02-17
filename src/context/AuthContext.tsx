@@ -204,7 +204,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setOrganization({
           nombre: orgNombre,
           slug: orgSlug,
-          verticalSlug: createOrganization?.verticalSlug || 'HaiCommunity',
+          verticalSlug: (createOrganization?.verticalSlug || 'HaiCommunity') as import('../types/verticales').VerticalSlug,
         })
         return true
       }

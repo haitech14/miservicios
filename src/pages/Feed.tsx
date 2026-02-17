@@ -6,7 +6,7 @@ import { api } from '../services/api'
 
 export function Feed() {
   const { user } = useAuth()
-  const { nombre: orgNombre } = useOrg()
+  useOrg()
   const [actividades, setActividades] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [filtro, setFiltro] = useState<string>('todos')

@@ -10,7 +10,10 @@ export interface User {
   carrera: string
   celular: string
   fijo: string
-  fotoUrl?: string
+  fotoUrl?: string | null
+  portadaUrl?: string | null
+  facultadOuArea?: string
+  carreraOuCargo?: string
   presentacion?: string
   alias?: string
   rol: 'beneficiario' | 'admin'

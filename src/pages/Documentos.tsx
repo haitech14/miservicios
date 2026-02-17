@@ -139,14 +139,15 @@ export function Documentos() {
   const [activeTab, setActiveTab] = useState<TabType>('archivos')
   
   // Archivos
-  const [vistaArchivos, setVistaArchivos] = useState<'grid' | 'lista'>('grid')
-  const [archivos, setArchivos] = useState<Archivo[]>(archivosEjemplo)
+  const [vistaArchivos] = useState<'grid' | 'lista'>('grid')
+  const [archivos] = useState<Archivo[]>(archivosEjemplo)
   const [carpetaActual, setCarpetaActual] = useState<string | null>(null)
 
   // Notas
   const [paginas, setPaginas] = useState<Pagina[]>(paginasEjemplo)
   const [paginaSeleccionada, setPaginaSeleccionada] = useState<Pagina | null>(null)
   const [nuevoBloque, setNuevoBloque] = useState('')
+  void nuevoBloque; void setNuevoBloque
 
   const archivosVisibles = carpetaActual
     ? archivos.filter((a) => a.id === carpetaActual)
