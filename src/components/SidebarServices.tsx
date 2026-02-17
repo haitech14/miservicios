@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { SERVICIOS } from '../constants/servicios'
 import type { ServicioClave } from '../constants/servicios'
 
-const servicioToRoute: Record<ServicioClave, string> = {
+const servicioToRoute: Partial<Record<ServicioClave, string>> = {
   comedor: '/comedor',
   transporte: '/transporte',
   gimnasio: '/gimnasio',
@@ -13,11 +13,13 @@ const servicioToRoute: Record<ServicioClave, string> = {
   idiomas: '/idiomas',
   'aula-virtual': '#',
   mapa: '#',
+  tutorias: '/tutorias',
   actividades: '/actividades',
   voluntarios: '/participacion',
   proyectos: '/participacion',
   drive: '/documentos',
   calendario: '/calendario',
+  marketplace: '/marketplace',
 }
 
 export function SidebarServices() {
