@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback, memo } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 
 interface BottomSheetProps {
   isOpen: boolean
@@ -7,7 +7,7 @@ interface BottomSheetProps {
   title?: string
 }
 
-function BottomSheetComponent({ isOpen, onClose, children, title }: BottomSheetProps) {
+export function BottomSheet({ isOpen, onClose, children, title }: BottomSheetProps) {
   const [dragY, setDragY] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const startY = useRef(0)
@@ -118,5 +118,3 @@ function BottomSheetComponent({ isOpen, onClose, children, title }: BottomSheetP
     </>
   )
 }
-
-export const BottomSheet = memo(BottomSheetComponent)
