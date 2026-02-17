@@ -55,10 +55,10 @@ export function Header({ title, showBack = false, showLogo = true, sectionTitle 
               </div>
             )}
             <h1 className="text-xl md:text-2xl font-bold text-primary md:text-gray-900">
-              {sectionTitle || title || 'SERVICIOS'}
+              {title || sectionTitle || 'SERVICIOS'}
             </h1>
             {title && sectionTitle && (
-              <span className="hidden md:block text-sm text-gray-500">{title}</span>
+              <span className="hidden md:block text-sm text-gray-500">{sectionTitle}</span>
             )}
           </div>
 
