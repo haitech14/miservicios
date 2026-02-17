@@ -10,6 +10,15 @@ interface Testimonial {
   tiempo: string
 }
 
+const verticalLabel: Record<string, string> = {
+  HaiEduCore: 'Educación',
+  HaiBizFlow: 'Empresas',
+  HaiActive: 'Gimnasio y Deporte',
+  HaiCare: 'Salud',
+  HaiCommunity: 'Comunidades y ONG',
+  HaiFacility: 'Vecindarios',
+}
+
 const testimonios: Testimonial[] = [
   {
     nombre: 'María García',
@@ -96,7 +105,7 @@ export function Testimonials() {
                   testimonial.vertical === 'HaiCare' ? 'bg-red-100 text-red-700' :
                   'bg-purple-100 text-purple-700'
                 }`}>
-                  {testimonial.vertical}
+                  {verticalLabel[testimonial.vertical] ?? testimonial.vertical}
                 </span>
               </div>
 

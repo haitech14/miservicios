@@ -27,7 +27,7 @@ export interface TemaVertical {
 export const TEMAS_VERTICALES: Record<VerticalSlug, TemaVertical> = {
   HaiEduCore: {
     verticalSlug: 'HaiEduCore',
-    nombre: 'HaiEduCore - Educación',
+    nombre: 'Educación',
     colores: {
       primary: '#3b82f6',
       secondary: '#2563eb',
@@ -49,7 +49,7 @@ export const TEMAS_VERTICALES: Record<VerticalSlug, TemaVertical> = {
   },
   HaiCommunity: {
     verticalSlug: 'HaiCommunity',
-    nombre: 'HaiCommunity - Comunidades',
+    nombre: 'Comunidades y ONG',
     colores: {
       primary: '#8b5cf6',
       secondary: '#7c3aed',
@@ -71,7 +71,7 @@ export const TEMAS_VERTICALES: Record<VerticalSlug, TemaVertical> = {
   },
   HaiBizFlow: {
     verticalSlug: 'HaiBizFlow',
-    nombre: 'HaiBizFlow - Empresas',
+    nombre: 'Empresas',
     colores: {
       primary: '#6366f1',
       secondary: '#4f46e5',
@@ -93,7 +93,7 @@ export const TEMAS_VERTICALES: Record<VerticalSlug, TemaVertical> = {
   },
   HaiActive: {
     verticalSlug: 'HaiActive',
-    nombre: 'HaiActive - Deportes',
+    nombre: 'Gimnasio y Deporte',
     colores: {
       primary: '#ef4444',
       secondary: '#dc2626',
@@ -115,7 +115,7 @@ export const TEMAS_VERTICALES: Record<VerticalSlug, TemaVertical> = {
   },
   HaiCare: {
     verticalSlug: 'HaiCare',
-    nombre: 'HaiCare - Salud',
+    nombre: 'Salud',
     colores: {
       primary: '#10b981',
       secondary: '#059669',
@@ -137,7 +137,7 @@ export const TEMAS_VERTICALES: Record<VerticalSlug, TemaVertical> = {
   },
   HaiFacility: {
     verticalSlug: 'HaiFacility',
-    nombre: 'HaiFacility - Facilities',
+    nombre: 'Vecindarios',
     colores: {
       primary: '#0ea5e9',
       secondary: '#0284c7',

@@ -148,46 +148,68 @@ export function Comunidad() {
     },
   ]
 
+  const destacados = [
+    { clave: 'foro', nombre: 'Foro Comunitario', icono: '💬', ruta: '/feed', color: 'from-violet-500 to-purple-600', desc: 'Publica, comenta y participa en debates' },
+    { clave: 'calendario', nombre: 'Calendario y Eventos', icono: '📅', ruta: '/comunidad/eventos', color: 'from-pink-500 to-rose-600', desc: 'Programa eventos y recibe notificaciones por correo' },
+    { clave: 'miembros', nombre: 'Miembros', icono: '👥', ruta: '/comunidad/socios', color: 'from-blue-500 to-indigo-600', desc: `${loading ? '...' : stats.socios} miembros de la comunidad` },
+    { clave: 'puntuaciones', nombre: 'Puntuaciones', icono: '🏆', ruta: '/ranking', color: 'from-amber-500 to-orange-600', desc: '7 días, 30 días y todo el tiempo' },
+  ]
+
   return (
     <div className="min-h-screen bg-gray-100 pb-20 md:pb-0">
-      <Header title="Comunidad" showBack showLogo={false} />
-      <main className="max-w-xl mx-auto px-4 py-4">
+      <Header title="Comunidad" showBack showLogo={false} sectionTitle="COMUNIDAD" />
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+        {/* Sección principal: Foro, Calendario, Miembros, Puntuaciones */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6 mb-8">
+          {destacados.map((d) => (
+            <Link
+              key={d.clave}
+              to={d.ruta}
+              className={`bg-gradient-to-br ${d.color} rounded-xl p-5 lg:p-6 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all`}
+            >
+              <div className="text-2xl lg:text-3xl mb-3">{d.icono}</div>
+              <h3 className="font-bold text-white mb-1 text-base lg:text-lg">{d.nombre}</h3>
+              <p className="text-white/90 text-xs lg:text-sm">{d.desc}</p>
+            </Link>
+          ))}
+        </div>
+
         {/* Resumen */}
-        <div className="bg-white rounded-xl p-6 shadow-sm mb-4">
-          <h2 className="text-xl font-bold text-slate-900 mb-4">Resumen de {orgNombre}</h2>
+        <div className="bg-white rounded-xl p-6 lg:p-8 shadow-sm mb-6">
+          <h2 className="text-xl lg:text-2xl font-bold text-slate-900 mb-5">Resumen de {orgNombre}</h2>
           {loading ? (
-            <div className="text-center py-8 text-slate-500">Cargando...</div>
+            <div className="text-center py-12 text-slate-500">Cargando...</div>
           ) : (
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-blue-50 rounded-lg p-4">
-                <div className="text-2xl font-bold text-blue-600">{stats.socios}</div>
-                <div className="text-sm text-slate-600">Socios activos</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+              <div className="bg-blue-50 rounded-xl p-5 lg:p-6">
+                <div className="text-2xl lg:text-3xl font-bold text-blue-600">{stats.socios}</div>
+                <div className="text-sm lg:text-base text-slate-600">Socios activos</div>
               </div>
-              <div className="bg-green-50 rounded-lg p-4">
-                <div className="text-2xl font-bold text-green-600">{stats.cuotasPendientes}</div>
-                <div className="text-sm text-slate-600">Cuotas pendientes</div>
+              <div className="bg-green-50 rounded-xl p-5 lg:p-6">
+                <div className="text-2xl lg:text-3xl font-bold text-green-600">{stats.cuotasPendientes}</div>
+                <div className="text-sm lg:text-base text-slate-600">Cuotas pendientes</div>
               </div>
-              <div className="bg-purple-50 rounded-lg p-4">
-                <div className="text-2xl font-bold text-purple-600">{stats.eventosProximos}</div>
-                <div className="text-sm text-slate-600">Eventos próximos</div>
+              <div className="bg-purple-50 rounded-xl p-5 lg:p-6">
+                <div className="text-2xl lg:text-3xl font-bold text-purple-600">{stats.eventosProximos}</div>
+                <div className="text-sm lg:text-base text-slate-600">Eventos próximos</div>
               </div>
-              <div className="bg-pink-50 rounded-lg p-4">
-                <div className="text-2xl font-bold text-pink-600">{stats.voluntarios}</div>
-                <div className="text-sm text-slate-600">Voluntarios</div>
+              <div className="bg-pink-50 rounded-xl p-5 lg:p-6">
+                <div className="text-2xl lg:text-3xl font-bold text-pink-600">{stats.voluntarios}</div>
+                <div className="text-sm lg:text-base text-slate-600">Voluntarios</div>
               </div>
             </div>
           )}
         </div>
 
         {/* Módulos */}
-        <div className="bg-white rounded-xl p-6 shadow-sm">
-          <h2 className="text-xl font-bold text-slate-900 mb-4">Módulos</h2>
-          <div className="grid grid-cols-2 gap-3">
+        <div className="bg-white rounded-xl p-6 lg:p-8 shadow-sm">
+          <h2 className="text-xl lg:text-2xl font-bold text-slate-900 mb-5">Módulos</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
             {modulos.map((modulo) => (
               <Link
                 key={modulo.clave}
                 to={modulo.ruta}
-                className="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-xl hover:border-primary hover:bg-primary/5 transition-colors"
+                className="flex items-center gap-4 p-4 lg:p-5 border-2 border-slate-200 rounded-xl hover:border-primary hover:bg-primary/5 transition-colors"
               >
                 <div className={`w-12 h-12 rounded-lg ${modulo.color} flex items-center justify-center text-2xl`}>
                   {modulo.icono}

@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext'
 export function Ranking() {
   const { user } = useAuth()
   const [tab, setTab] = useState<'general' | 'servicio'>('general')
-  const [periodo, setPeriodo] = useState<string>('todos')
+  const [periodo, setPeriodo] = useState<string>('todos') // 7d, 30d, todos
   const [servicioId, setServicioId] = useState<string>('')
   const [ranking, setRanking] = useState<any[]>([])
   const [miPosicion, setMiPosicion] = useState<any>(null)
@@ -22,7 +22,8 @@ export function Ranking() {
       let data: any[] = []
 
       if (tab === 'general') {
-        data = (await api.gamificacion.ranking(periodo === 'todos' ? undefined : periodo)) as any[]
+        const periodoApi = periodo === 'todos' ? undefined : periodo
+        data = (await api.gamificacion.ranking(periodoApi)) as any[]
       } else {
         if (servicioId) {
           data = (await api.gamificacion.rankingServicio(servicioId)) as any[]
@@ -86,16 +87,25 @@ export function Ranking() {
         <div className="bg-white rounded-xl shadow-sm p-4 mb-4">
           <div className="flex flex-wrap gap-4">
             {tab === 'general' && (
-              <select
-                value={periodo}
-                onChange={(e) => setPeriodo(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              >
-                <option value="todos">Todos los tiempos</option>
-                <option value="semanal">Semanal</option>
-                <option value="mensual">Mensual</option>
-                <option value="anual">Anual</option>
-              </select>
+              <div className="flex gap-2 flex-wrap">
+                {[
+                  { valor: '7d', etiqueta: 'Últimos 7 días' },
+                  { valor: '30d', etiqueta: 'Últimos 30 días' },
+                  { valor: 'todos', etiqueta: 'Todo el tiempo' },
+                ].map(({ valor, etiqueta }) => (
+                  <button
+                    key={valor}
+                    onClick={() => setPeriodo(valor)}
+                    className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                      periodo === valor
+                        ? 'bg-primary text-white'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    {etiqueta}
+                  </button>
+                ))}
+              </div>
             )}
             {tab === 'servicio' && (
               <select

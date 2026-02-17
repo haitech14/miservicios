@@ -67,6 +67,28 @@ function MiniCalendario() {
 export function HomeSidebar() {
   return (
     <div className="space-y-6">
+      <section className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="p-4 border-b border-gray-100 bg-gradient-to-r from-purple-50 to-pink-50">
+          <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2">
+            <span className="text-lg">🤖</span>
+            Recomendaciones IA
+          </h3>
+        </div>
+        <div className="divide-y divide-gray-100">
+          {recomendacionesIA.map((r) => (
+            <div
+              key={r.id}
+              className="p-4 flex gap-3 hover:bg-gray-50 transition-colors group cursor-pointer"
+            >
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${r.color} flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg`}>
+                {r.icono}
+              </div>
+              <p className="text-sm text-gray-700 flex-1 pt-1">{r.texto}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <MiniCalendario />
 
       <section className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -143,28 +165,6 @@ export function HomeSidebar() {
                 </div>
               </div>
             </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-4 border-b border-gray-100 bg-gradient-to-r from-purple-50 to-pink-50">
-          <h3 className="font-bold text-gray-900 text-sm flex items-center gap-2">
-            <span className="text-lg">🤖</span>
-            Recomendaciones IA
-          </h3>
-        </div>
-        <div className="divide-y divide-gray-100">
-          {recomendacionesIA.map((r) => (
-            <div
-              key={r.id}
-              className="p-4 flex gap-3 hover:bg-gray-50 transition-colors group cursor-pointer"
-            >
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${r.color} flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg`}>
-                {r.icono}
-              </div>
-              <p className="text-sm text-gray-700 flex-1 pt-1">{r.texto}</p>
-            </div>
           ))}
         </div>
       </section>

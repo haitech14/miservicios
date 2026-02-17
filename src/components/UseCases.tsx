@@ -40,7 +40,7 @@ const useCases: UseCase[] = [
   },
   {
     vertical: 'HaiActive',
-    nombre: 'Deportes',
+    nombre: 'Gimnasio y Deporte',
     icono: '🏋️',
     descripcion: 'Gimnasios, clubes deportivos y academias de fitness con múltiples socios.',
     caracteristicas: [
@@ -68,7 +68,7 @@ const useCases: UseCase[] = [
   },
   {
     vertical: 'HaiCommunity',
-    nombre: 'Comunidades',
+    nombre: 'Comunidades y ONG',
     icono: '👥',
     descripcion: 'ONGs, asociaciones, cooperativas y comunidades sin fines de lucro.',
     caracteristicas: [
@@ -82,9 +82,9 @@ const useCases: UseCase[] = [
   },
   {
     vertical: 'HaiFacility',
-    nombre: 'Facilities',
+    nombre: 'Vecindarios',
     icono: '🏢',
-    descripcion: 'Coworkings, centros comerciales y parques empresariales.',
+    descripcion: 'Vecindarios, coworkings, centros comerciales y parques empresariales.',
     caracteristicas: [
       'Gestión de espacios y reservas',
       'Control de accesos',
@@ -141,7 +141,7 @@ export function UseCases() {
                       {useCase.icono}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-3xl md:text-4xl font-bold mb-2">{useCase.vertical}</h3>
+                      <h3 className="text-3xl md:text-4xl font-bold mb-2">{useCase.nombre}</h3>
                       <p className="text-white/90 text-lg">{useCase.descripcion}</p>
                     </div>
                   </div>
@@ -168,7 +168,7 @@ export function UseCases() {
                 <div className="p-8 md:p-12 bg-gradient-to-r from-gray-50 to-white border-t border-gray-100">
                   <div className="text-center">
                     <p className="text-gray-600 mb-6">
-                      ¿Quieres ver cómo {useCase.vertical} funciona?
+                      ¿Quieres ver cómo {useCase.nombre} funciona?
                     </p>
                     <button className="px-8 py-4 bg-gradient-to-r from-primary to-indigo-600 text-white font-bold rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all">
                       Solicitar Demo de {useCase.nombre}
@@ -192,7 +192,7 @@ export function UseCases() {
                   <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${useCase.color} flex items-center justify-center text-4xl text-white mb-6 shadow-lg group-hover:scale-110 transition-transform`}>
                     {useCase.icono}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{useCase.vertical}</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{useCase.nombre}</h3>
                   <p className="text-gray-600 mb-6 text-sm leading-relaxed">{useCase.descripcion}</p>
                   <div className="space-y-2">
                     <p className="text-sm font-semibold text-gray-900 mb-2">Principales funcionalidades:</p>

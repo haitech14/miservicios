@@ -15,6 +15,7 @@ export function Eventos() {
     fechaFin: '',
     ubicacion: '',
     tipo: 'social',
+    notificarPorCorreo: true,
   })
 
   useEffect(() => {
@@ -44,8 +45,9 @@ export function Eventos() {
         organizationId: user.organizationId,
         ...nuevoEvento,
         userId: user.id,
+        notificarPorCorreo: nuevoEvento.notificarPorCorreo,
       })
-      setNuevoEvento({ titulo: '', descripcion: '', fechaInicio: '', fechaFin: '', ubicacion: '', tipo: 'social' })
+      setNuevoEvento({ titulo: '', descripcion: '', fechaInicio: '', fechaFin: '', ubicacion: '', tipo: 'social', notificarPorCorreo: true })
       setCrearEvento(false)
       loadEventos()
     } catch (error: any) {
@@ -88,6 +90,17 @@ export function Eventos() {
                   rows={4}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
+              </div>
+              <div>
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={nuevoEvento.notificarPorCorreo}
+                    onChange={(e) => setNuevoEvento({ ...nuevoEvento, notificarPorCorreo: e.target.checked })}
+                    className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary"
+                  />
+                  <span className="font-medium text-gray-900">Notificar por correo a los participantes</span>
+                </label>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>

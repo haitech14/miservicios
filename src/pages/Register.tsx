@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../services/api'
 import { validateEmail, validatePassword, validateSlug, debounce } from '../lib/optimizaciones'
@@ -20,7 +20,7 @@ function EyeIcon({ show }: { show: boolean }) {
 type Step = 'datos' | 'comunidad' | 'crear' | 'unirse'
 
 export function Register() {
-  const [step, setStep] = useState<Step>('datos')
+  const [step, setStep] = useState<Step>(initialState === 'comunidad' ? 'comunidad' : 'datos')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -47,6 +47,8 @@ export function Register() {
 
   const { register } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const initialState = (location.state as { step?: Step })?.step
 
   // Validación en tiempo real de email
   const validateEmailDebounced = debounce((emailValue: string) => {

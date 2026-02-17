@@ -41,6 +41,7 @@ const defaultOrg: OrgContextType = {
   orgConfig: defaultOrgConfig,
   modulosActivos: modulosActivosFromConfig(defaultOrgConfig),
   t: (key) => TERMINOLOGIA.universidad[key],
+  setOrganization: () => {},
 }
 
 const OrgContext = createContext<OrgContextType | null>(null)

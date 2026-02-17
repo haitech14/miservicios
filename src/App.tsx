@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './context/AuthContext'
 import { OrgProvider } from './context/OrgContext'
+import { ConfiguracionProvider } from './context/ConfiguracionContext'
 import { ThemeProvider } from './context/ThemeContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { AppLayout } from './components/AppLayout'
@@ -15,9 +16,9 @@ const LoadingSpinner = () => (
   </div>
 )
 
-// Lazy loading de páginas públicas (carga inmediata)
+// Lazy loading de páginas públicas
 const Landing = lazy(() => import('./pages/Landing').then(m => ({ default: m.Landing })))
-const Login = lazy(() => import('./pages/Login').then(m => ({ default: m.Login })))
+import { Login } from './pages/Login'
 const Register = lazy(() => import('./pages/Register').then(m => ({ default: m.Register })))
 const OlvideContrasena = lazy(() => import('./pages/OlvideContrasena').then(m => ({ default: m.OlvideContrasena })))
 
@@ -64,6 +65,7 @@ const Debates = lazy(() => import('./pages/verticales/community/Debates').then(m
 const Actividades = lazy(() => import('./pages/Actividades').then(m => ({ default: m.Actividades })))
 const Participacion = lazy(() => import('./pages/Participacion').then(m => ({ default: m.Participacion })))
 const Documentos = lazy(() => import('./pages/Documentos').then(m => ({ default: m.Documentos })))
+const Marketplace = lazy(() => import('./pages/Marketplace').then(m => ({ default: m.Marketplace })))
 const ComunicacionesFeed = lazy(() => import('./pages/ComunicacionesFeed').then(m => ({ default: m.ComunicacionesFeed })))
 
 // Lazy loading de admin
@@ -79,6 +81,7 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <OrgProvider>
+            <ConfiguracionProvider>
             <ThemeProvider>
               <Suspense fallback={<LoadingSpinner />}>
               <Routes>
@@ -100,6 +103,7 @@ function App() {
                 >
                   <Route path="/inicio" element={<Home />} />
                   <Route path="/perfil" element={<Profile />} />
+                  <Route path="/configuracion" element={<Configuracion />} />
                   <Route path="/carnet" element={<CarnetVirtual />} />
                   <Route path="/servicios" element={<Servicios />} />
                   <Route path="/comedor" element={<Comedor />} />
@@ -116,7 +120,6 @@ function App() {
                   <Route path="/comunidad" element={<Comunidad />} />
                   <Route path="/ranking" element={<Ranking />} />
                   <Route path="/gamificacion" element={<Gamificacion />} />
-                  <Route path="/configuracion" element={<Configuracion />} />
                   <Route path="/feed" element={<Feed />} />
                   <Route path="/foros" element={<Foros />} />
                   <Route path="/comunidad/socios" element={<Socios />} />
@@ -139,11 +142,13 @@ function App() {
                   <Route path="/actividades" element={<Actividades />} />
                   <Route path="/participacion" element={<Participacion />} />
                   <Route path="/documentos" element={<Documentos />} />
+                  <Route path="/marketplace" element={<Marketplace />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
               </Suspense>
             </ThemeProvider>
+            </ConfiguracionProvider>
           </OrgProvider>
         </AuthProvider>
       </BrowserRouter>

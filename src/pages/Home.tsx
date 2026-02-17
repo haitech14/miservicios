@@ -20,6 +20,7 @@ const ServicioCard = memo(({ servicio }: { servicio: ReturnType<typeof getServic
       idiomas: '/idiomas',
       drive: '/documentos',
       calendario: '/calendario',
+      marketplace: '/marketplace',
     }
     return routes[servicio.clave] || '#'
   }
@@ -151,6 +152,7 @@ export const Home = memo(function Home() {
                         idiomas: '/idiomas',
                         drive: '/documentos',
                         calendario: '/calendario',
+                        marketplace: '/marketplace',
                       }
                       return routes[s.clave] || '#'
                     }

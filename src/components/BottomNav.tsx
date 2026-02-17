@@ -8,7 +8,7 @@ const navItems = [
   { to: '/comunidad', icon: '👥', label: 'Comunidad' },
   { to: '/inicio', icon: '🏠', label: 'Inicio' },
   { to: '/servicios', icon: '📋', label: 'Servicios' },
-  { to: '/perfil', icon: '👤', label: 'Perfil' },
+  { to: '/configuracion', icon: '⚙️', label: 'Config' },
 ]
 
 const NavItem = memo(({ to, icon, label, isActive }: { to: string; icon: string; label: string; isActive: boolean }) => (

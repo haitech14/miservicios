@@ -71,6 +71,25 @@ body {
     display: none;
   }
   
+  /* Scrollbar minimalista - delgada y discreta */
+  .scrollbar-minimal {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+  }
+  .scrollbar-minimal::-webkit-scrollbar {
+    width: 5px;
+  }
+  .scrollbar-minimal::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-minimal::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.35);
+    border-radius: 9999px;
+  }
+  .scrollbar-minimal::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.5);
+  }
+  
   /* Scroll horizontal optimizado para móvil */
   .scroll-x {
     overflow-x: auto;

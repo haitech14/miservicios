@@ -1,14 +1,24 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { Header } from '../components/Header'
 import { useAuth } from '../context/AuthContext'
 import { useOrg } from '../context/OrgContext'
+import { useConfiguracion } from '../context/ConfiguracionContext'
 import { api } from '../services/api'
+import { SERVICIOS } from '../constants/servicios'
+
+type TabId = 'organizacion' | 'perfil' | 'modulos' | 'gamificacion' | 'notificaciones' | 'privacidad'
 
 export function Configuracion() {
-  const { user } = useAuth()
+  const { user, updateUser } = useAuth()
   const { nombre: orgNombre } = useOrg()
-  const [activeTab, setActiveTab] = useState<'perfil' | 'gamificacion' | 'notificaciones' | 'privacidad'>('perfil')
-  const [loading, setLoading] = useState(false)
+  const {
+    nombreOrganizacion,
+    setNombreOrganizacion,
+    toggleModulo,
+    isModuloHabilitado,
+  } = useConfiguracion()
+  const [activeTab, setActiveTab] = useState<TabId>('organizacion')
   const [saving, setSaving] = useState(false)
 
   // Perfil
@@ -41,6 +51,13 @@ export function Configuracion() {
     }
   }, [user])
 
+  const GAMIFICACION_STORAGE = 'mi-servicios-gamificacion'
+  const NOTIFICACIONES_STORAGE = 'mi-servicios-notificaciones'
+  const isNetworkError = (e: any) => {
+    const msg = String(e?.message || '')
+    return !msg || /fetch|network|failed|conexión/i.test(msg)
+  }
+
   const loadGamificacion = async () => {
     if (!user?.organizationId) return
     try {
@@ -51,7 +68,15 @@ export function Configuracion() {
         setPremios((config as any).premios || [])
       }
     } catch (error) {
-      console.error('Error cargando configuración de gamificación:', error)
+      try {
+        const stored = localStorage.getItem(GAMIFICACION_STORAGE)
+        if (stored) {
+          const data = JSON.parse(stored)
+          setPremiosDiariosActivos(data.premiosDiariosActivos ?? false)
+          setTipoPremio(data.tipoPremio || 'ruleta')
+          setPremios(Array.isArray(data.premios) ? data.premios : [])
+        }
+      } catch (_) {}
     }
   }
 
@@ -64,22 +89,41 @@ export function Configuracion() {
         setTiposNotificacion((prefs as any).tiposNotificacion || tiposNotificacion)
       }
     } catch (error) {
-      console.error('Error cargando preferencias:', error)
+      try {
+        const stored = localStorage.getItem(NOTIFICACIONES_STORAGE)
+        if (stored) {
+          const data = JSON.parse(stored)
+          setEmailActivo(data.emailActivo !== false)
+          setPushActivo(data.pushActivo !== false)
+          if (data.tiposNotificacion && typeof data.tiposNotificacion === 'object') {
+            setTiposNotificacion((prev) => ({ ...prev, ...data.tiposNotificacion }))
+          }
+        }
+      } catch (_) {}
     }
   }
 
   const handleSavePerfil = async () => {
     try {
       setSaving(true)
-      await api.configuracion.actualizarPerfil({
-        nombres,
-        apellidos,
-        celular,
-        fijo,
-      })
-      alert('Perfil actualizado correctamente')
+      try {
+        await api.configuracion.actualizarPerfil({
+          nombres,
+          apellidos,
+          celular,
+          fijo,
+        })
+        alert('Perfil actualizado correctamente')
+      } catch (apiError: any) {
+        if (isNetworkError(apiError) && user) {
+          updateUser({ nombres, apellidos, celular, fijo })
+          alert('Guardado localmente. El servidor no está disponible; los cambios se sincronizarán cuando se conecte.')
+        } else {
+          throw apiError
+        }
+      }
     } catch (error: any) {
-      alert(error.message || 'Error al guardar')
+      alert(error?.message || 'Error al guardar')
     } finally {
       setSaving(false)
     }
@@ -89,15 +133,28 @@ export function Configuracion() {
     if (!user?.organizationId) return
     try {
       setSaving(true)
-      await api.configuracion.gamificacion.update({
-        organizationId: user.organizationId,
-        premiosDiariosActivos,
-        tipoPremio,
-        premios,
-      })
-      alert('Configuración de gamificación actualizada')
+      try {
+        await api.configuracion.gamificacion.update({
+          organizationId: user.organizationId,
+          premiosDiariosActivos,
+          tipoPremio,
+          premios,
+        })
+        alert('Configuración de gamificación actualizada')
+      } catch (apiError: any) {
+        if (isNetworkError(apiError)) {
+          localStorage.setItem(GAMIFICACION_STORAGE, JSON.stringify({
+            premiosDiariosActivos,
+            tipoPremio,
+            premios,
+          }))
+          alert('Guardado localmente. El servidor no está disponible; los cambios se sincronizarán cuando se conecte.')
+        } else {
+          throw apiError
+        }
+      }
     } catch (error: any) {
-      alert(error.message || 'Error al guardar')
+      alert(error?.message || 'Error al guardar')
     } finally {
       setSaving(false)
     }
@@ -106,14 +163,27 @@ export function Configuracion() {
   const handleSaveNotificaciones = async () => {
     try {
       setSaving(true)
-      await api.notificaciones.preferencias.update({
-        emailActivo,
-        pushActivo,
-        tiposNotificacion,
-      })
-      alert('Preferencias de notificaciones actualizadas')
+      try {
+        await api.notificaciones.preferencias.update({
+          emailActivo,
+          pushActivo,
+          tiposNotificacion,
+        })
+        alert('Preferencias de notificaciones actualizadas')
+      } catch (apiError: any) {
+        if (isNetworkError(apiError)) {
+          localStorage.setItem(NOTIFICACIONES_STORAGE, JSON.stringify({
+            emailActivo,
+            pushActivo,
+            tiposNotificacion,
+          }))
+          alert('Guardado localmente. El servidor no está disponible; los cambios se sincronizarán cuando se conecte.')
+        } else {
+          throw apiError
+        }
+      }
     } catch (error: any) {
-      alert(error.message || 'Error al guardar')
+      alert(error?.message || 'Error al guardar')
     } finally {
       setSaving(false)
     }
@@ -125,21 +195,28 @@ export function Configuracion() {
       <main className="max-w-4xl mx-auto px-4 py-4">
         {/* Tabs */}
         <div className="bg-white rounded-xl shadow-sm mb-4">
-          <div className="flex border-b border-gray-200 overflow-x-auto">
-            {(['perfil', 'gamificacion', 'notificaciones', 'privacidad'] as const).map((tab) => (
+          <div className="flex border-b border-gray-200 overflow-x-auto scrollbar-minimal">
+            {(
+              [
+                { id: 'organizacion' as const, label: 'Organización', icon: '🏢' },
+                { id: 'perfil' as const, label: 'Mi perfil', icon: '👤' },
+                { id: 'modulos' as const, label: 'Módulos', icon: '📦' },
+                { id: 'gamificacion' as const, label: 'Gamificación', icon: '🎮' },
+                { id: 'notificaciones' as const, label: 'Notificaciones', icon: '🔔' },
+                { id: 'privacidad' as const, label: 'Privacidad', icon: '🔒' },
+              ] as const
+            ).map(({ id, label, icon }) => (
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-6 py-4 font-semibold text-center whitespace-nowrap transition-colors ${
-                  activeTab === tab
+                key={id}
+                onClick={() => setActiveTab(id)}
+                className={`flex items-center gap-2 px-4 py-4 font-semibold text-center whitespace-nowrap transition-colors ${
+                  activeTab === id
                     ? 'text-primary border-b-2 border-primary'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
-                {tab === 'perfil' && 'Perfil'}
-                {tab === 'gamificacion' && 'Gamificación'}
-                {tab === 'notificaciones' && 'Notificaciones'}
-                {tab === 'privacidad' && 'Privacidad'}
+                <span>{icon}</span>
+                <span>{label}</span>
               </button>
             ))}
           </div>
@@ -147,8 +224,74 @@ export function Configuracion() {
 
         {/* Contenido de tabs */}
         <div className="bg-white rounded-xl shadow-sm p-6">
+          {activeTab === 'organizacion' && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Organización o Comunidad</h2>
+              <p className="text-sm text-gray-600 mb-4">
+                Personaliza el nombre que ves en la cabecera del menú lateral. Deja vacío para usar el nombre por defecto.
+              </p>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Nombre de la organización</label>
+                <input
+                  type="text"
+                  value={nombreOrganizacion ?? ''}
+                  onChange={(e) => setNombreOrganizacion(e.target.value)}
+                  placeholder={orgNombre || 'Ej: Mi Universidad'}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                />
+              </div>
+              <p className="text-xs text-gray-500">Los cambios se guardan automáticamente.</p>
+            </div>
+          )}
+
+          {activeTab === 'modulos' && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-bold text-gray-900 mb-4">Módulos y Servicios</h2>
+              <p className="text-sm text-gray-600 mb-4">
+                Activa o desactiva los módulos que aparecen en el menú de Servicios. Los módulos desactivados no se mostrarán en la lista.
+              </p>
+              <div className="space-y-2">
+                {SERVICIOS.map((s) => {
+                  const habilitado = isModuloHabilitado(s.clave)
+                  return (
+                    <label
+                      key={s.clave}
+                      className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${
+                        habilitado ? 'border-gray-200 hover:bg-gray-50' : 'border-gray-100 bg-gray-50 opacity-75'
+                      }`}
+                    >
+                      <span className="flex items-center gap-3">
+                        <span
+                          className="w-9 h-9 rounded-full flex items-center justify-center text-base"
+                          style={{ backgroundColor: `${s.color}25` }}
+                        >
+                          {s.icono}
+                        </span>
+                        <span className="font-medium text-gray-900">{s.nombre}</span>
+                        {!s.activo && <span className="text-xs text-amber-600">Próximamente</span>}
+                      </span>
+                      <input
+                        type="checkbox"
+                        checked={habilitado}
+                        onChange={() => toggleModulo(s.clave)}
+                        className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary"
+                      />
+                    </label>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
           {activeTab === 'perfil' && (
             <div className="space-y-4">
+              <Link
+                to="/perfil"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary font-medium hover:bg-primary/20 mb-4"
+              >
+                Ver mi perfil
+              </Link>
+              <hr className="my-6" />
               <h2 className="text-xl font-bold text-gray-900 mb-4">Información Personal</h2>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Nombres</label>

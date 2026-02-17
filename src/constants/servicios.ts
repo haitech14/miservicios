@@ -14,6 +14,7 @@ export type ServicioClave =
   | 'proyectos'
   | 'drive'
   | 'calendario'
+  | 'marketplace'
 
 export interface Servicio {
   clave: ServicioClave
@@ -158,6 +159,15 @@ export const SERVICIOS: Servicio[] = [
     descripcion: 'Gestiona tus eventos y recordatorios',
     activo: true,
     categoria: 'servicios',
+  },
+  {
+    clave: 'marketplace',
+    nombre: 'Marketplace',
+    icono: '🛒',
+    color: '#059669',
+    descripcion: 'Compra, vende e intercambia con la comunidad',
+    activo: true,
+    categoria: 'comunidad',
   },
 ]
 

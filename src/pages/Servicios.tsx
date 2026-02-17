@@ -23,10 +23,10 @@ export function Servicios() {
   const servicioActual = servicios.find((s) => s.clave === seleccionado)
 
   return (
-    <div className="min-h-screen bg-gray-100 pb-20 md:pb-0">
+    <div className="min-h-screen flex flex-col bg-gray-100 pb-20 md:pb-0">
       <Header title="Catálogo de Servicios" sectionTitle="SERVICIOS" showBack showLogo />
-      <main className="max-w-7xl mx-auto px-4 py-4 md:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row gap-6">
+      <main className="flex-1 flex flex-col min-h-0 w-full max-w-[1600px] mx-auto px-4 py-4 md:px-6 lg:px-8">
+        <div className="flex flex-col lg:flex-row gap-6 flex-1 min-h-0">
           {/* Sidebar secundario */}
           <aside className="lg:w-72 flex-shrink-0">
             <nav className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible">
@@ -64,7 +64,7 @@ export function Servicios() {
           </aside>
 
           {/* Contenido principal */}
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 min-h-0 flex flex-col">
             {servicioActual ? (
               <ServicioContenido servicio={servicioActual} />
             ) : (

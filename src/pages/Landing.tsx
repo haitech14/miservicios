@@ -168,71 +168,68 @@ export function Landing() {
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/50 to-transparent" />
         </div>
-        <div className="relative max-w-6xl mx-auto grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-10 items-center">
-          {/* Texto hero */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
-            <span className="text-slate-900">Plataforma SaaS para </span>
-            <span className="bg-gradient-to-r from-primary via-indigo-500 to-violet-600 bg-clip-text text-transparent">comunidades</span>
-            <span className="text-slate-900"> y </span>
-            <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">organizaciones</span>
-          </h1>
-          <p className="mt-6 text-xl text-slate-600 max-w-2xl">
-            Gestiona socios, eventos, cuotas, comunicaciones y más. 
-            Para comunidades, ONGs, universidades y empresas.
-          </p>
-          {/* Animación ligera de beneficios en acción */}
-          <div className="mt-5 flex flex-wrap gap-3 text-sm text-slate-700">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 animate-pulse">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              +30% uso de servicios
-            </span>
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-50 text-sky-700 border border-sky-100">
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
-              -40% tiempo en trámites
-            </span>
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-50 text-violet-700 border border-violet-100">
-              <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
-              +25% participación en actividades
-            </span>
-          </div>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <Link
-              to="/login"
-              className="px-8 py-4 bg-gradient-to-r from-primary to-indigo-600 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all"
-            >
-              Solicitar demostración
-            </Link>
-            <Link
-              to="/login"
-              className="px-8 py-4 border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-primary hover:text-primary hover:bg-primary/5 transition-all"
-            >
-              Ya tengo cuenta
-            </Link>
+        <div className="relative max-w-6xl mx-auto flex flex-col lg:flex-row gap-10 lg:gap-12 items-start">
+          {/* Columna izquierda: texto hero */}
+          <div className="flex-1 min-w-0 order-1">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+              <span className="text-slate-900">Plataforma SaaS para </span>
+              <span className="bg-gradient-to-r from-primary via-indigo-500 to-violet-600 bg-clip-text text-transparent">comunidades</span>
+              <span className="text-slate-900"> y </span>
+              <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">organizaciones</span>
+            </h1>
+            <p className="mt-6 text-xl text-slate-600 max-w-2xl">
+              Gestiona socios, eventos, cuotas, comunicaciones y más. 
+              Para comunidades, ONGs, universidades y empresas.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3 text-sm text-slate-700">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                +30% uso de servicios
+              </span>
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-50 text-sky-700 border border-sky-100">
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                -40% tiempo en trámites
+              </span>
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-50 text-violet-700 border border-violet-100">
+                <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
+                +25% participación en actividades
+              </span>
+            </div>
+            <div className="mt-10 flex flex-col sm:flex-row gap-4">
+              <Link
+                to="/login"
+                className="px-8 py-4 bg-gradient-to-r from-primary to-indigo-600 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all"
+              >
+                Solicitar demostración
+              </Link>
+              <Link
+                to="/login"
+                className="px-8 py-4 border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-primary hover:text-primary hover:bg-primary/5 transition-all"
+              >
+                Ver Planes
+              </Link>
+            </div>
           </div>
 
-          {/* Demo interactiva */}
-          <div className="mt-10 lg:mt-0">
-            <div className="bg-white/80 backdrop-blur-md rounded-2xl p-4 sm:p-5 shadow-xl border border-slate-100">
-              <div className="flex items-center justify-between mb-4">
+          {/* Columna derecha: mockup Panel de Servicios */}
+          <div className="w-full lg:w-[480px] xl:w-[520px] flex-shrink-0 order-2 lg:ml-auto">
+            <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+              <div className="flex items-center justify-between px-3 py-2 bg-slate-100 border-b border-slate-200">
                 <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  <span className="text-[10px] font-medium text-slate-500 uppercase tracking-wide">
                     Demo interactiva
                   </span>
                 </div>
-                <span className="text-xs text-slate-400">Vista simulada</span>
+                <span className="text-[10px] text-slate-400">Vista simulada</span>
               </div>
-
-              {/* Selector de vertical */}
-              <div className="flex gap-2 mb-4 overflow-x-auto pb-1">
+              <div className="flex gap-1 p-2 border-b border-slate-100 overflow-x-auto">
                 {demoVerticales.map((v) => (
                   <button
                     key={v.id}
                     onClick={() => setVerticalActiva(v)}
-                    className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all border ${
-                      verticalActiva.id === v.id
-                        ? `${v.chipColor} border-transparent shadow-sm`
-                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-medium whitespace-nowrap transition-all ${
+                      verticalActiva.id === v.id ? v.chipColor : 'text-slate-500 hover:bg-slate-100'
                     }`}
                   >
                     {v.label}
@@ -240,42 +237,76 @@ export function Landing() {
                 ))}
               </div>
 
-              {/* Tarjeta principal de demo */}
-              <div className="rounded-xl bg-slate-900 text-white p-4 sm:p-5 relative overflow-hidden">
-                <div className={`absolute inset-0 opacity-60 bg-gradient-to-br ${verticalActiva.gradient}`} />
-                <div className="relative">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <p className="text-xs uppercase tracking-wide text-white/70">
-                        Panel de servicios
-                      </p>
-                      <p className="text-lg font-semibold">Organización demo</p>
+              {/* Mockup: réplica de la plataforma real */}
+              <div className="flex bg-gray-100">
+                {/* Sidebar oscuro */}
+                <aside className="w-20 flex-shrink-0 bg-gradient-to-b from-slate-800 to-slate-900 py-3 px-2">
+                  <div className="flex flex-col items-center gap-1 mb-3 pb-2 border-b border-slate-600">
+                    <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white text-[10px] font-bold">
+                      MI
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-white/80">
-                      <span className="px-2 py-1 rounded-full bg-black/30 border border-white/10">
-                        {verticalActiva.label}
-                      </span>
-                    </div>
+                    <span className="text-[9px] font-bold text-white leading-tight text-center">SERVICIOS</span>
                   </div>
-
-                  <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-3">
-                    {verticalActiva.items.map((item) => (
-                      <div
-                        key={item}
-                        className="rounded-lg bg-black/20 border border-white/10 px-3 py-3 flex flex-col gap-1"
-                      >
-                        <span className="text-xs text-white/60">Módulo</span>
-                        <span className="text-sm font-medium leading-snug">{item}</span>
-                        <span className="mt-1 h-1.5 rounded-full bg-white/15 overflow-hidden">
-                          <span className="block h-full w-[70%] bg-gradient-to-r from-emerald-400 to-lime-300" />
-                        </span>
+                  <nav className="space-y-0.5">
+                    {[
+                      { icon: '🏠', label: 'Inicio' },
+                      { icon: '📋', label: 'Serv.' },
+                      { icon: '📰', label: 'Not.' },
+                      { icon: '👥', label: 'Com.' },
+                    ].map((n) => (
+                      <div key={n.label} className="flex flex-col items-center py-1.5 px-1 rounded-md hover:bg-slate-700/50">
+                        <span className="text-sm">{n.icon}</span>
+                        <span className="text-[8px] text-slate-400">{n.label}</span>
+                      </div>
+                    ))}
+                  </nav>
+                  <div className="mt-2 pt-2 border-t border-slate-600">
+                    {verticalActiva.items.slice(0, 4).map((item, i) => (
+                      <div key={i} className="flex items-center gap-1.5 py-1 px-1.5 rounded mb-0.5 bg-slate-700/50">
+                        <span className="text-[10px]">•</span>
+                        <span className="text-[8px] text-white/90 truncate">{item.split(' ')[0]}</span>
                       </div>
                     ))}
                   </div>
+                </aside>
 
-                  <div className="mt-3 flex items-center justify-between text-xs text-white/80">
-                    <span>Tiempo de adopción estimado: 2-4 semanas</span>
-                    <span className="font-semibold">+30% uso de servicios</span>
+                {/* Área principal */}
+                <div className="flex-1 min-w-0">
+                  <div className="bg-white border-b border-slate-200 px-2 py-1.5 flex items-center justify-between">
+                    <span className="text-[10px] font-semibold text-slate-700">SERVICIOS</span>
+                    <div className="flex gap-1">
+                      <div className="w-5 h-5 rounded bg-slate-200" />
+                      <div className="w-5 h-5 rounded bg-slate-200" />
+                    </div>
+                  </div>
+                  <div className="p-2 space-y-2">
+                    <div className="rounded-lg border border-slate-200 bg-white p-2">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-sm">🍽️</div>
+                        <div>
+                          <p className="text-[10px] font-semibold text-slate-800">Servicio de Comedor</p>
+                          <p className="text-[8px] text-slate-500">Elegir sede y turno</p>
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        {['Ciudad Universitaria', 'San Fernando'].map((s, i) => (
+                          <div key={i} className="flex items-center justify-between py-1 px-2 bg-gray-50 rounded text-[9px]">
+                            <span className="text-slate-700 truncate">{s}</span>
+                            <div className={`w-8 h-4 rounded-full flex-shrink-0 flex items-center px-0.5 ${i === 0 ? 'bg-primary justify-end' : 'bg-gray-300 justify-start'}`}>
+                              <div className="w-3 h-3 rounded-full bg-white shadow" />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-2 flex gap-1">
+                        <div className="flex-1 py-1 rounded bg-primary/90 text-white text-[8px] font-medium text-center">ALMUERZO</div>
+                        <div className="flex-1 py-1 rounded bg-gray-200 text-gray-600 text-[8px] font-medium text-center">CENA</div>
+                      </div>
+                    </div>
+                    <p className="text-[8px] text-slate-400 flex items-center justify-between">
+                      <span>Adopción: 2-4 semanas</span>
+                      <span className="font-semibold text-emerald-600">+30% uso</span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -436,7 +467,7 @@ export function Landing() {
               },
               {
                 pregunta: '¿Qué verticales soporta HaiCommunity?',
-                respuesta: 'HaiCommunity soporta 6 verticales: HaiEduCore (educación), HaiBizFlow (empresas), HaiActive (deportes), HaiCare (salud), HaiCommunity (comunidades) y HaiFacility (coworkings). Cada vertical tiene módulos y funcionalidades específicas adaptadas a sus necesidades.'
+                respuesta: 'HaiCommunity soporta 6 verticales: Educación, Empresas, Gimnasio y Deporte, Salud, Comunidades y ONG, y Vecindarios. Cada vertical tiene módulos y funcionalidades específicas adaptadas a sus necesidades.'
               },
               {
                 pregunta: '¿Puedo personalizar la plataforma con mi marca?',

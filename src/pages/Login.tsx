@@ -28,7 +28,7 @@ export function Login() {
     setError('')
     const ok = await login(email, password)
     if (ok) navigate('/inicio')
-    else setError('Correo debe ser @unmsm.edu.pe')
+    else setError('Usuario o contraseña incorrectos')
   }
 
   return (

@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Header } from '../components/Header'
+import { useAuth } from '../context/AuthContext'
+import { api } from '../services/api'
 
 const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 const DIAS_SEM = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
@@ -51,8 +53,18 @@ const eventosEjemplo: Evento[] = [
 ]
 
 export function Calendario() {
+  const { user } = useAuth()
   const [fecha, setFecha] = useState(new Date())
   const [eventos, setEventos] = useState<Evento[]>(eventosEjemplo)
+  const [eventosComunitarios, setEventosComunitarios] = useState<any[]>([])
+
+  useEffect(() => {
+    if (user?.organizationId) {
+      api.comunidad.eventos.list(user.organizationId || '').then((data) => {
+        setEventosComunitarios((data as any[]) || [])
+      }).catch(() => {})
+    }
+  }, [user])
   const [diaSeleccionado, setDiaSeleccionado] = useState<Date | null>(null)
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
 
@@ -74,13 +86,44 @@ export function Calendario() {
   const eventosDelDia = (dia: number | null) => {
     if (dia === null) return []
     const fechaCompleta = new Date(year, month, dia)
-    return eventos.filter((e) => {
+    const personales = eventos.filter((e) => {
       return (
         e.fecha.getDate() === fechaCompleta.getDate() &&
         e.fecha.getMonth() === fechaCompleta.getMonth() &&
         e.fecha.getFullYear() === fechaCompleta.getFullYear()
       )
     })
+    const comunitarios = eventosComunitarios
+      .filter((e: any) => {
+        const d = new Date(e.fechaInicio)
+        return d.getDate() === fechaCompleta.getDate() && d.getMonth() === fechaCompleta.getMonth() && d.getFullYear() === fechaCompleta.getFullYear()
+      })
+      .map((e: any) => ({
+        id: e.id,
+        titulo: e.titulo,
+        fecha: new Date(e.fechaInicio),
+        hora: new Date(e.fechaInicio).toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' }),
+        tipo: 'academico' as const,
+        color: 'from-emerald-500 to-teal-600',
+        descripcion: e.descripcion || 'Evento comunitario',
+      }))
+    return [...personales, ...comunitarios]
+  }
+
+  const todosEventosOrdenados = () => {
+    const todos = [
+      ...eventos,
+      ...eventosComunitarios.map((e: any) => ({
+        id: e.id,
+        titulo: e.titulo,
+        fecha: new Date(e.fechaInicio),
+        hora: new Date(e.fechaInicio).toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' }),
+        tipo: 'academico' as const,
+        color: 'from-emerald-500 to-teal-600',
+        descripcion: e.descripcion,
+      })),
+    ].filter((e) => e.fecha >= new Date())
+    return todos.sort((a, b) => a.fecha.getTime() - b.fecha.getTime()).slice(0, 8)
   }
 
   const esHoy = (dia: number | null) => {
@@ -106,7 +149,10 @@ export function Calendario() {
                 </div>
                 <div>
                   <h1 className="font-bold text-2xl md:text-3xl mb-1">Calendario Personal</h1>
-                  <p className="text-white/90 text-sm md:text-base">Gestiona tus eventos y recordatorios</p>
+                  <p className="text-white/90 text-sm md:text-base">Gestiona tus eventos, recordatorios y eventos comunitarios</p>
+                  <p className="text-white/80 text-xs mt-1 flex items-center gap-1">
+                    <span>📧</span> Te notificamos por correo cuando se programen eventos
+                  </p>
                 </div>
               </div>
               <button
@@ -199,8 +245,8 @@ export function Calendario() {
                 : 'Próximos eventos'}
             </h3>
             <div className="space-y-3">
-              {(diaSeleccionado ? eventosDelDia(diaSeleccionado.getDate()) : eventos)
-                .slice(0, 5)
+              {(diaSeleccionado ? eventosDelDia(diaSeleccionado.getDate()) : todosEventosOrdenados())
+                .slice(0, 6)
                 .map((evento) => (
                   <div
                     key={evento.id}
@@ -218,7 +264,7 @@ export function Calendario() {
                     </span>
                   </div>
                 ))}
-              {(!diaSeleccionado ? eventos : eventosDelDia(diaSeleccionado.getDate())).length === 0 && (
+              {(diaSeleccionado ? eventosDelDia(diaSeleccionado.getDate()) : todosEventosOrdenados()).length === 0 && (
                 <p className="text-sm text-gray-500 text-center py-8">
                   No hay eventos programados
                 </p>

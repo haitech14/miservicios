@@ -73,9 +73,10 @@ export function ServicioContenido({ servicio }: ServicioContenidoProps) {
   const rutaTutoriasActividades = servicio.clave === 'tutorias' || servicio.clave === 'actividades'
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="p-6">
-        <div className="flex items-start gap-4 mb-6">
+    <div className="flex-1 flex flex-col min-h-0 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="flex-1 flex flex-col lg:flex-row lg:items-stretch gap-8 p-6 lg:p-8">
+        <div className="flex-shrink-0">
+        <div className="flex items-start gap-4">
           <div
             className="w-16 h-16 rounded-full flex items-center justify-center text-3xl flex-shrink-0"
             style={{ backgroundColor: `${servicio.color}25` }}
@@ -95,11 +96,12 @@ export function ServicioContenido({ servicio }: ServicioContenidoProps) {
             )}
           </div>
         </div>
+        </div>
 
         {detalle?.items && detalle.items.length > 0 && (
-          <div className="mb-6">
-            <p className="text-sm font-medium text-gray-700 mb-2">Incluye:</p>
-            <ul className="grid gap-1.5 sm:grid-cols-2">
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-gray-700 mb-3">Incluye:</p>
+            <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {detalle.items.map((item, i) => (
                 <li key={i} className="flex items-center gap-2 text-sm text-gray-600">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
@@ -110,6 +112,7 @@ export function ServicioContenido({ servicio }: ServicioContenidoProps) {
           </div>
         )}
 
+        <div className="flex flex-col justify-end gap-4 lg:flex-row lg:items-end">
         {enDesarrollo ? (
           <p className="text-sm text-amber-700 bg-amber-50 rounded-lg px-4 py-3 mb-4">
             Este servicio está en desarrollo y estará disponible próximamente.
@@ -117,12 +120,13 @@ export function ServicioContenido({ servicio }: ServicioContenidoProps) {
         ) : (ruta || rutaTutoriasActividades) ? (
           <Link
             to={ruta ?? (servicio.clave === 'tutorias' ? '/tutorias' : '/actividades')}
-            className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-medium text-white transition-colors hover:opacity-90"
+            className="inline-flex items-center justify-center px-8 py-4 rounded-xl font-medium text-white text-base transition-colors hover:opacity-90 min-w-[180px]"
             style={{ backgroundColor: servicio.color }}
           >
             Ir al servicio
           </Link>
         ) : null}
+        </div>
       </div>
     </div>
   )

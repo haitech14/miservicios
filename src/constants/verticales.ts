@@ -8,7 +8,7 @@ export const VERTICALES: Vertical[] = [
   {
     id: 'v-edu',
     slug: 'HaiEduCore',
-    nombre: 'HaiEduCore',
+    nombre: 'Educación',
     descripcion: 'Centros educativos, institutos, universidades, academias',
     perfil: 'universidad',
     destinatarios: 'Estudiantes, docentes',
@@ -16,7 +16,7 @@ export const VERTICALES: Vertical[] = [
   {
     id: 'v-biz',
     slug: 'HaiBizFlow',
-    nombre: 'HaiBizFlow',
+    nombre: 'Empresas',
     descripcion: 'Empresas, pymes, corporativos, startups, consultoras',
     perfil: 'empresa',
     destinatarios: 'Empleados',
@@ -24,7 +24,7 @@ export const VERTICALES: Vertical[] = [
   {
     id: 'v-active',
     slug: 'HaiActive',
-    nombre: 'HaiActive',
+    nombre: 'Gimnasio y Deporte',
     descripcion: 'Centros deportivos, gimnasios, clubes, academias deportivas',
     perfil: 'gimnasio',
     destinatarios: 'Socios / miembros',
@@ -32,7 +32,7 @@ export const VERTICALES: Vertical[] = [
   {
     id: 'v-care',
     slug: 'HaiCare',
-    nombre: 'HaiCare',
+    nombre: 'Salud',
     descripcion: 'Clínicas, centros médicos, centros de bienestar, consultorios',
     perfil: 'clinica',
     destinatarios: 'Pacientes',
@@ -40,7 +40,7 @@ export const VERTICALES: Vertical[] = [
   {
     id: 'v-community',
     slug: 'HaiCommunity',
-    nombre: 'HaiCommunity',
+    nombre: 'Comunidades y ONG',
     descripcion: 'ONG, asociaciones, cooperativas, fundaciones, comunidades',
     perfil: 'comunidad',
     destinatarios: 'Socios, voluntarios',
@@ -48,7 +48,7 @@ export const VERTICALES: Vertical[] = [
   {
     id: 'v-facility',
     slug: 'HaiFacility',
-    nombre: 'HaiFacility',
+    nombre: 'Vecindarios',
     descripcion: 'Coworkings, centros comerciales, parques empresariales',
     perfil: 'facility',
     destinatarios: 'Residentes, arrendatarios',
