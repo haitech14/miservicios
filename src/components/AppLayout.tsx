@@ -8,14 +8,14 @@ export function AppLayout() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col md:flex-row">
       {/* Web: sidebar lateral con navegación y servicios */}
-      <aside className="hidden md:flex md:w-56 lg:w-64 md:flex-col md:fixed md:inset-y-0 md:left-0 bg-white border-r border-gray-200 z-40 overflow-y-auto">
-        <div className="flex items-center gap-2 px-4 py-5 border-b border-gray-100 flex-shrink-0">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white text-sm font-bold shadow-md">
+      <aside className="hidden md:flex md:w-56 lg:w-64 md:flex-col md:fixed md:inset-y-0 md:left-0 bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 border-r border-slate-700 z-40 overflow-y-auto">
+        <div className="flex items-center gap-2 px-4 py-5 border-b border-slate-700 flex-shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center text-white text-sm font-bold shadow-lg">
             MI
           </div>
           <div>
-            <span className="font-bold text-primary text-lg">SERVICIOS</span>
-            <p className="text-xs text-gray-500">UNMSM</p>
+            <span className="font-bold text-white text-lg">SERVICIOS</span>
+            <p className="text-xs text-slate-400">UNMSM</p>
           </div>
         </div>
         <TopNav />

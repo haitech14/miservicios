@@ -1,11 +1,12 @@
-// HaiServices / Mi Servicios - Multi-org con verticales y módulos
+// HaiCommunity - Multi-org con verticales y módulos
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Vertical {
@@ -15,6 +16,9 @@ model Vertical {
   descripcion String?
   perfil      String
   destinatarios String?
+  temaColores String?  // JSON con paleta de colores predefinida
+  iconografia String?  // JSON con iconos por sección
+  estilos     String?  // JSON con estilos personalizados
   modulos     Modulo[]
 }
 
@@ -35,9 +39,10 @@ model Organization {
   slug          String    @unique
   nombre        String
   logoUrl       String?
+  portadaUrl    String?   // Imagen de portada de la organización
   primaryColor  String?   @default("#1a365d")
   secondaryColor String?
-  dominioEmail  String?
+  dominioEmail  String?   // Dominio para matching automático (ej: unmsm.edu.pe)
   terminologia  String?   // universidad | centro | empresa | gimnasio | clinica | comunidad | facility
   verticalSlug  String    // HaiEduCore | HaiBizFlow | HaiActive | HaiCare | HaiCommunity | HaiFacility
   productSlug  String?   // opcional sub-marca para URLs
@@ -45,6 +50,7 @@ model Organization {
   updatedAt     DateTime  @updatedAt
   config        OrgConfig?
   users         User[]
+  @@index([dominioEmail]) // Índice para búsqueda rápida por dominio
 }
 
 model OrgConfig {
@@ -73,6 +79,422 @@ model User {
   celular          String?
   fijo             String?
   fotoUrl          String?
+  portadaUrl       String?      // Foto de portada del usuario
   rol              String       @default("beneficiario") // beneficiario | admin | superadmin
   createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  // Relaciones de gamificación
+  userScore        UserScore?
+  serviceScores    ServiceScore[]
+  achievements     UserAchievement[]
+  dailyRewards     UserDailyReward[]
+  // Relaciones de interacción social
+  chatMensajes     ChatMensaje[]
+  @@index([email]) // Índice para búsqueda por email
+}
+
+// ============================================
+// MODELOS DE GAMIFICACIÓN
+// ============================================
+
+model UserScore {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  puntosTotales     Int      @default(0)
+  nivel             Int      @default(1)
+  rankingGeneral    Int?     // Posición en ranking general (se actualiza periódicamente)
+  ultimaActualizacion DateTime @default(now()) @updatedAt
+  @@index([puntosTotales]) // Para ordenar ranking
+  @@index([nivel])
+}
+
+model ServiceScore {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  servicioId       String   // ID del servicio (comedor, transporte, etc.)
+  servicioNombre   String   // Nombre del servicio para referencia
+  puntos            Int      @default(0)
+  rankingEnServicio Int?    // Posición en ranking del servicio
+  ultimaActividad   DateTime @default(now()) @updatedAt
+  @@unique([userId, servicioId])
+  @@index([servicioId, puntos]) // Para ranking por servicio
+}
+
+model Achievement {
+  id                String   @id @default(cuid())
+  clave             String   @unique // Clave única del logro (ej: "primer_ticket")
+  nombre            String
+  descripcion       String?
+  icono             String?  // Emoji o URL de icono
+  puntosRecompensa  Int      @default(0)
+  activo            Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  userAchievements  UserAchievement[]
+}
+
+model UserAchievement {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievementId     String
+  achievement       Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  fechaDesbloqueo   DateTime @default(now())
+  @@unique([userId, achievementId])
+  @@index([userId])
+}
+
+model DailyReward {
+  id                String   @id @default(cuid())
+  organizationId    String?  // Si es null, es global
+  tipo              String   // "ruleta" | "sorteo"
+  activo            Boolean  @default(true)
+  configuracion     String   // JSON con configuración de premios
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  userRewards       UserDailyReward[]
+}
+
+model UserDailyReward {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dailyRewardId     String
+  dailyReward       DailyReward @relation(fields: [dailyRewardId], references: [id], onDelete: Cascade)
+  fechaReclamacion  DateTime @default(now())
+  premio            String   // JSON con detalles del premio reclamado
+  @@unique([userId, dailyRewardId, fechaReclamacion]) // Un premio por día
+  @@index([userId, fechaReclamacion])
+}
+
+// ============================================
+// MODELOS DE COMUNIDAD (HaiCommunity)
+// ============================================
+
+model Socio {
+  id                String   @id @default(cuid())
+  organizationId   String
+  userId            String?  // Si está vinculado a un usuario
+  codigoSocio       String?  @unique
+  nombres           String
+  apellidos         String
+  email             String?
+  telefono          String?
+  fechaIngreso      DateTime @default(now())
+  estado            String   @default("activo") // activo | inactivo | suspendido
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  cuotas            Cuota[]
+  @@index([organizationId])
+  @@index([codigoSocio])
+}
+
+model Cuota {
+  id                String   @id @default(cuid())
+  organizationId   String
+  socioId           String
+  socio             Socio     @relation(fields: [socioId], references: [id], onDelete: Cascade)
+  monto             Float
+  concepto          String
+  fechaVencimiento  DateTime
+  fechaPago         DateTime?
+  estado            String   @default("pendiente") // pendiente | pagada | vencida
+  metodoPago        String?  // efectivo | transferencia | tarjeta
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  @@index([organizationId, estado])
+  @@index([socioId])
+}
+
+model Evento {
+  id                String   @id @default(cuid())
+  organizationId   String
+  titulo            String
+  descripcion       String?
+  fechaInicio      DateTime
+  fechaFin         DateTime?
+  ubicacion        String?
+  tipo              String   // reunion | social | deportivo | cultural | etc.
+  estado            String   @default("programado") // programado | en_curso | finalizado | cancelado
+  capacidadMaxima   Int?
+  inscripcionesAbiertas Boolean @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  @@index([organizationId, fechaInicio])
+  @@index([estado])
+}
+
+model Comunicacion {
+  id                String   @id @default(cuid())
+  organizationId   String
+  titulo            String
+  contenido         String
+  tipo              String   // email | sms | push | notificacion
+  destinatarios     String   // JSON array de IDs o "todos"
+  fechaEnvio        DateTime?
+  estado            String   @default("borrador") // borrador | programada | enviada | cancelada
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  @@index([organizationId])
+}
+
+model Voluntario {
+  id                String   @id @default(cuid())
+  organizationId   String
+  userId            String?  // Si está vinculado a un usuario
+  nombres           String
+  apellidos         String
+  email             String?
+  telefono          String?
+  areaVoluntariado  String?  // Área donde colabora
+  horasAcumuladas   Int      @default(0)
+  estado            String   @default("activo") // activo | inactivo
+  fechaIngreso      DateTime @default(now())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  @@index([organizationId])
+}
+
+model Donacion {
+  id                String   @id @default(cuid())
+  organizationId   String
+  donanteId         String?  // ID de socio o usuario
+  monto             Float
+  concepto          String?
+  metodoPago        String   // tarjeta | transferencia | efectivo
+  estado            String   @default("pendiente") // pendiente | completada | fallida
+  fechaDonacion     DateTime @default(now())
+  transaccionId     String?  // ID de transacción del procesador de pagos
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  @@index([organizationId, estado])
+  @@index([donanteId])
+}
+
+model Proyecto {
+  id                String   @id @default(cuid())
+  organizationId   String
+  nombre            String
+  descripcion       String?
+  objetivo          String?
+  presupuesto       Float?
+  fechaInicio       DateTime?
+  fechaFin          DateTime?
+  estado            String   @default("planificacion") // planificacion | en_progreso | completado | cancelado
+  responsableId     String?  // ID de usuario responsable
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  @@index([organizationId, estado])
+}
+
+model Votacion {
+  id                String   @id @default(cuid())
+  organizationId   String
+  titulo            String
+  descripcion       String?
+  tipo              String   // simple | multiple | ranking
+  fechaInicio       DateTime
+  fechaFin          DateTime
+  estado            String   @default("programada") // programada | en_curso | finalizada | cancelada
+  resultadosPublicos Boolean @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  opciones          OpcionVotacion[]
+  votos             Voto[]
+  @@index([organizationId, estado])
+  @@index([fechaInicio, fechaFin])
+}
+
+model OpcionVotacion {
+  id                String   @id @default(cuid())
+  votacionId        String
+  votacion          Votacion @relation(fields: [votacionId], references: [id], onDelete: Cascade)
+  texto             String
+  orden             Int      @default(0)
+  votos             Voto[]
+  createdAt         DateTime @default(now())
+}
+
+model Voto {
+  id                String   @id @default(cuid())
+  votacionId        String
+  votacion          Votacion @relation(fields: [votacionId], references: [id], onDelete: Cascade)
+  opcionId          String
+  opcion            OpcionVotacion @relation(fields: [opcionId], references: [id], onDelete: Cascade)
+  userId            String
+  fechaVoto         DateTime @default(now())
+  @@unique([votacionId, userId]) // Un voto por usuario por votación
+  @@index([votacionId])
+  @@index([userId])
+}
+
+// ============================================
+// MODELOS DE INTERACCIÓN SOCIAL
+// ============================================
+
+model Foro {
+  id                String   @id @default(cuid())
+  organizationId   String
+  nombre            String
+  descripcion       String?
+  categoria         String?  // Categoría del foro
+  activo            Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  posts             Post[]
+  @@index([organizationId])
+  @@index([activo])
+}
+
+model Post {
+  id                String   @id @default(cuid())
+  foroId            String
+  foro              Foro     @relation(fields: [foroId], references: [id], onDelete: Cascade)
+  userId            String
+  titulo            String
+  contenido         String
+  tipo              String   @default("texto") // texto | imagen | video | enlace
+  estado            String   @default("publicado") // publicado | borrador | eliminado
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  comentarios       Comentario[]
+  reacciones        Reaccion[]
+  @@index([foroId, createdAt])
+  @@index([userId])
+  @@index([estado])
+}
+
+model Comentario {
+  id                String   @id @default(cuid())
+  postId            String
+  post              Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId            String
+  contenido         String
+  comentarioPadreId String?  // Para respuestas anidadas
+  comentarioPadre   Comentario? @relation("ComentarioRespuestas", fields: [comentarioPadreId], references: [id], onDelete: Cascade)
+  respuestas        Comentario[] @relation("ComentarioRespuestas")
+  reacciones        Reaccion[]
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  @@index([postId, createdAt])
+  @@index([userId])
+  @@index([comentarioPadreId])
+}
+
+model Reaccion {
+  id                String   @id @default(cuid())
+  postId            String?
+  post              Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comentarioId      String?
+  comentario        Comentario? @relation(fields: [comentarioId], references: [id], onDelete: Cascade)
+  userId            String
+  tipo              String   @default("like") // like | love | laugh | angry | sad
+  createdAt         DateTime @default(now())
+  @@index([postId])
+  @@index([comentarioId])
+  @@index([userId])
+  @@index([userId, tipo])
+}
+
+model FeedActividad {
+  id                String   @id @default(cuid())
+  organizationId   String
+  userId            String
+  tipo              String   // post | evento | logro | votacion | actividad
+  contenido         String   // JSON con detalles de la actividad
+  fecha             DateTime @default(now())
+  @@index([organizationId, fecha])
+  @@index([userId])
+  @@index([tipo])
+}
+
+model Grupo {
+  id                String   @id @default(cuid())
+  organizationId   String
+  nombre            String
+  descripcion       String?
+  tipo              String?  // Tipo de grupo
+  privado           Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  miembros          MiembroGrupo[]
+  chatMensajes      ChatMensaje[]
+  @@index([organizationId])
+  @@index([privado])
+}
+
+model MiembroGrupo {
+  id                String   @id @default(cuid())
+  grupoId           String
+  grupo             Grupo    @relation(fields: [grupoId], references: [id], onDelete: Cascade)
+  userId            String
+  rol               String   @default("miembro") // admin | moderador | miembro
+  fechaIngreso      DateTime @default(now())
+  @@unique([grupoId, userId])
+  @@index([userId])
+}
+
+model ChatMensaje {
+  id                String   @id @default(cuid())
+  grupoId           String?
+  grupo             Grupo?   @relation(fields: [grupoId], references: [id], onDelete: Cascade)
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contenido         String
+  tipo              String   @default("texto") // texto | imagen | archivo
+  createdAt         DateTime @default(now())
+  @@index([grupoId, createdAt])
+  @@index([userId])
+}
+
+// ============================================
+// MODELOS DE NOTIFICACIONES
+// ============================================
+
+model Notificacion {
+  id                String   @id @default(cuid())
+  userId            String
+  tipo              String   // evento | mensaje | logro | sistema | etc.
+  titulo            String
+  mensaje           String
+  enlace            String?  // URL relacionada
+  leida             Boolean  @default(false)
+  fecha             DateTime @default(now())
+  @@index([userId, leida, fecha])
+  @@index([tipo])
+}
+
+model NotificacionPush {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  token             String
+  activo            Boolean  @default(true)
+  preferencias      String?  // JSON con preferencias
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  @@index([userId])
+}
+
+model NotificacionEmail {
+  id                String   @id @default(cuid())
+  userId            String
+  asunto            String
+  contenido         String
+  enviado           Boolean  @default(false)
+  fechaEnvio        DateTime?
+  createdAt         DateTime @default(now())
+  @@index([userId, enviado])
+  @@index([fechaEnvio])
+}
+
+model PreferenciasNotificacion {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  emailActivo       Boolean  @default(true)
+  pushActivo        Boolean  @default(true)
+  tiposNotificacion String   // JSON con tipos activos/desactivados
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  @@index([userId])
 }

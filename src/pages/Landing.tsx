@@ -1,4 +1,8 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ROICalculator } from '../components/ROICalculator'
+import { Testimonials } from '../components/Testimonials'
+import { UseCases } from '../components/UseCases'
 
 const features = [
   {
@@ -98,7 +102,33 @@ const plans = [
   },
 ]
 
+const demoVerticales = [
+  {
+    id: 'HaiEduCore',
+    label: 'Educación',
+    chipColor: 'bg-vertical-edu-100 text-vertical-edu-700',
+    gradient: 'from-vertical-edu-primary to-vertical-edu-500',
+    items: ['Comedor universitario', 'Biblioteca y salas', 'Transporte interno', 'Cuaderno virtual'],
+  },
+  {
+    id: 'HaiBizFlow',
+    label: 'Empresas',
+    chipColor: 'bg-vertical-biz-100 text-vertical-biz-700',
+    gradient: 'from-vertical-biz-primary to-vertical-biz-500',
+    items: ['Beneficios corporativos', 'Eventos internos', 'Wellness laboral', 'Transporte colaboradores'],
+  },
+  {
+    id: 'HaiCommunity',
+    label: 'Comunidades',
+    chipColor: 'bg-vertical-community-100 text-vertical-community-700',
+    gradient: 'from-vertical-community-primary to-vertical-community-500',
+    items: ['Gestión de socios', 'Cuotas y donaciones', 'Actividades y voluntariado', 'Comunicaciones'],
+  },
+]
+
 export function Landing() {
+  const [verticalActiva, setVerticalActiva] = useState(demoVerticales[0])
+
   return (
     <div className="min-h-screen bg-white overflow-hidden">
       {/* Header */}
@@ -106,9 +136,9 @@ export function Landing() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-primary/30">
-              MI
+              HC
             </div>
-            <span className="font-bold text-xl bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent">Servicios</span>
+            <span className="font-bold text-xl bg-gradient-to-r from-primary to-indigo-600 bg-clip-text text-transparent">HaiCommunity</span>
           </div>
           <nav className="hidden md:flex items-center gap-8">
             <a href="#features" className="text-slate-600 hover:text-primary font-medium transition-colors">Características</a>
@@ -138,18 +168,34 @@ export function Landing() {
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/50 to-transparent" />
         </div>
-        <div className="relative max-w-4xl mx-auto text-center">
+        <div className="relative max-w-6xl mx-auto grid lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] gap-10 items-center">
+          {/* Texto hero */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
-            <span className="text-slate-900">Una plataforma de servicios para </span>
-            <span className="bg-gradient-to-r from-primary via-indigo-500 to-violet-600 bg-clip-text text-transparent">centros educativos</span>
+            <span className="text-slate-900">Plataforma SaaS para </span>
+            <span className="bg-gradient-to-r from-primary via-indigo-500 to-violet-600 bg-clip-text text-transparent">comunidades</span>
             <span className="text-slate-900"> y </span>
-            <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">empresas</span>
+            <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">organizaciones</span>
           </h1>
-          <p className="mt-6 text-xl text-slate-600 max-w-2xl mx-auto">
-            Gestiona comedor, transporte, biblioteca, clínica y más en un solo lugar.
-            Para estudiantes y colaboradores.
+          <p className="mt-6 text-xl text-slate-600 max-w-2xl">
+            Gestiona socios, eventos, cuotas, comunicaciones y más. 
+            Para comunidades, ONGs, universidades y empresas.
           </p>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+          {/* Animación ligera de beneficios en acción */}
+          <div className="mt-5 flex flex-wrap gap-3 text-sm text-slate-700">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 animate-pulse">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              +30% uso de servicios
+            </span>
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-50 text-sky-700 border border-sky-100">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+              -40% tiempo en trámites
+            </span>
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-50 text-violet-700 border border-violet-100">
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
+              +25% participación en actividades
+            </span>
+          </div>
+          <div className="mt-10 flex flex-col sm:flex-row gap-4">
             <Link
               to="/login"
               className="px-8 py-4 bg-gradient-to-r from-primary to-indigo-600 text-white font-semibold rounded-xl hover:shadow-xl hover:shadow-primary/30 transition-all"
@@ -162,6 +208,78 @@ export function Landing() {
             >
               Ya tengo cuenta
             </Link>
+          </div>
+
+          {/* Demo interactiva */}
+          <div className="mt-10 lg:mt-0">
+            <div className="bg-white/80 backdrop-blur-md rounded-2xl p-4 sm:p-5 shadow-xl border border-slate-100">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">
+                    Demo interactiva
+                  </span>
+                </div>
+                <span className="text-xs text-slate-400">Vista simulada</span>
+              </div>
+
+              {/* Selector de vertical */}
+              <div className="flex gap-2 mb-4 overflow-x-auto pb-1">
+                {demoVerticales.map((v) => (
+                  <button
+                    key={v.id}
+                    onClick={() => setVerticalActiva(v)}
+                    className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all border ${
+                      verticalActiva.id === v.id
+                        ? `${v.chipColor} border-transparent shadow-sm`
+                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                    }`}
+                  >
+                    {v.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Tarjeta principal de demo */}
+              <div className="rounded-xl bg-slate-900 text-white p-4 sm:p-5 relative overflow-hidden">
+                <div className={`absolute inset-0 opacity-60 bg-gradient-to-br ${verticalActiva.gradient}`} />
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <p className="text-xs uppercase tracking-wide text-white/70">
+                        Panel de servicios
+                      </p>
+                      <p className="text-lg font-semibold">Organización demo</p>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-white/80">
+                      <span className="px-2 py-1 rounded-full bg-black/30 border border-white/10">
+                        {verticalActiva.label}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-3">
+                    {verticalActiva.items.map((item) => (
+                      <div
+                        key={item}
+                        className="rounded-lg bg-black/20 border border-white/10 px-3 py-3 flex flex-col gap-1"
+                      >
+                        <span className="text-xs text-white/60">Módulo</span>
+                        <span className="text-sm font-medium leading-snug">{item}</span>
+                        <span className="mt-1 h-1.5 rounded-full bg-white/15 overflow-hidden">
+                          <span className="block h-full w-[70%] bg-gradient-to-r from-emerald-400 to-lime-300" />
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-3 flex items-center justify-between text-xs text-white/80">
+                    <span>Tiempo de adopción estimado: 2-4 semanas</span>
+                    <span className="font-semibold">+30% uso de servicios</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -279,6 +397,82 @@ export function Landing() {
         </div>
       </section>
 
+      {/* Use Cases */}
+      <section className="py-24 px-4 sm:px-6 bg-gradient-to-b from-white to-gray-50">
+        <UseCases />
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-24 px-4 sm:px-6 bg-gradient-to-b from-gray-50 to-white">
+        <Testimonials />
+      </section>
+
+      {/* ROI Calculator */}
+      <section className="py-24 px-4 sm:px-6 bg-gradient-to-b from-white to-indigo-50">
+        <ROICalculator />
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-24 px-4 sm:px-6 bg-gradient-to-b from-indigo-50 to-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              Preguntas Frecuentes
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Encuentra respuestas a las preguntas más comunes sobre HaiCommunity
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              {
+                pregunta: '¿Qué es HaiCommunity?',
+                respuesta: 'HaiCommunity es una plataforma SaaS completa para la gestión de comunidades y organizaciones. Permite gestionar socios, eventos, cuotas, comunicaciones y más en un solo lugar, con soporte para múltiples verticales como educación, empresas, gimnasios, clínicas y comunidades sin fines de lucro.'
+              },
+              {
+                pregunta: '¿Cuánto tiempo toma implementar la plataforma?',
+                respuesta: 'La implementación inicial puede completarse en 1-2 semanas según el tamaño de tu organización. Incluye configuración de módulos, importación de datos y capacitación de administradores. Los usuarios pueden empezar a usar la plataforma inmediatamente después de la activación.'
+              },
+              {
+                pregunta: '¿Qué verticales soporta HaiCommunity?',
+                respuesta: 'HaiCommunity soporta 6 verticales: HaiEduCore (educación), HaiBizFlow (empresas), HaiActive (deportes), HaiCare (salud), HaiCommunity (comunidades) y HaiFacility (coworkings). Cada vertical tiene módulos y funcionalidades específicas adaptadas a sus necesidades.'
+              },
+              {
+                pregunta: '¿Puedo personalizar la plataforma con mi marca?',
+                respuesta: 'Sí, HaiCommunity permite personalización completa de marca: colores, logo, nombre de dominio, correos personalizados y más. El plan Profesional y Enterprise incluyen personalización avanzada con ajustes específicos por organización.'
+              },
+              {
+                pregunta: '¿Qué tipo de soporte ofrecen?',
+                respuesta: 'Ofrecemos soporte por email en el plan Básico, soporte prioritario en Estándar, y soporte dedicado con gerente de cuenta en los planes Profesional y Enterprise. También disponemos de base de conocimientos, tutoriales en video y documentación completa.'
+              },
+              {
+                pregunta: '¿Tienen integraciones con otros sistemas?',
+                respuesta: 'El plan Enterprise incluye integraciones con sistemas existentes como CRM, ERP, sistemas de nómina, plataformas de pago y más. También ofrecemos API para desarrolladores que deseen crear integraciones personalizadas.'
+              },
+            ].map((item, index) => (
+              <div key={index} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                <button
+                  className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
+                  onClick={() => {
+                    const element = document.getElementById(`faq-${index}`)
+                    element?.classList.toggle('hidden')
+                  }}
+                >
+                  <span className="font-semibold text-gray-900 text-lg">{item.pregunta}</span>
+                  <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                <div id={`faq-${index}`} className="hidden px-6 pb-6 border-t border-gray-100">
+                  <p className="text-gray-700 leading-relaxed">{item.respuesta}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA - Vibrant gradient */}
       <section className="py-24 px-4 sm:px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary via-indigo-600 to-violet-700" />
@@ -298,7 +492,7 @@ export function Landing() {
               Solicitar demo
             </Link>
             <a
-              href="mailto:contacto@miservicios.com"
+              href="mailto:contacto@haicommunity.com"
               className="px-8 py-4 border-2 border-white text-white font-semibold rounded-xl hover:bg-white/20 transition-all"
             >
               Escribir
@@ -312,9 +506,9 @@ export function Landing() {
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-indigo-500 flex items-center justify-center text-white font-bold text-xs">
-              MI
+              HC
             </div>
-            <span className="font-semibold">Mi Servicios</span>
+            <span className="font-semibold">HaiCommunity</span>
           </div>
           <div className="flex gap-8 text-sm text-slate-400">
             <Link to="/login" className="hover:text-white transition-colors">Ingresar</Link>

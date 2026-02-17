@@ -1,6 +1,6 @@
-# Mi Servicios - UNMSM
+# HaiCommunity
 
-Plataforma SaaS para la gestión de servicios universitarios de la UNMSM (Universidad Nacional Mayor de San Marcos).
+Plataforma SaaS completa y extensible para la gestión de comunidades y organizaciones. Soporta múltiples verticales (educación, empresas, comunidades, gimnasios, clínicas, facilities) con módulos personalizables y sistema de gamificación.
 
 ## Características
 
@@ -16,10 +16,34 @@ Plataforma SaaS para la gestión de servicios universitarios de la UNMSM (Univer
 
 ## Instalación
 
+### Frontend
+
 ```bash
 npm install
 npm run dev
 ```
+
+### Backend
+
+```bash
+cd backend
+npm install
+```
+
+### Configuración de Base de Datos (Supabase)
+
+1. Crea un proyecto en [Supabase](https://supabase.com)
+2. Crea un archivo `.env` en `backend/` con tus credenciales (ver `backend/SUPABASE_SETUP.md`)
+3. Ejecuta las migraciones:
+
+```bash
+cd backend
+npm run db:generate
+npm run db:push
+npm run db:seed
+```
+
+Para más detalles, consulta [backend/SUPABASE_SETUP.md](backend/SUPABASE_SETUP.md)
 
 ## Scripts
 

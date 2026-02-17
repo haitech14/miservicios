@@ -1,7 +1,7 @@
 import type { Vertical } from '../types/verticales'
 
 /**
- * Catálogo de verticales (líneas de producto) HaiServices.
+ * Catálogo de verticales (líneas de producto) HaiCommunity.
  * Cada vertical corresponde a un tipo de organización y sus destinatarios internos.
  */
 export const VERTICALES: Vertical[] = [

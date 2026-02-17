@@ -5,7 +5,16 @@ import { SERVICIOS, type Servicio, type ServicioClave } from './servicios'
  * Las claves que coinciden no se listan; solo las que difieren (ej. aula_virtual -> aula-virtual).
  */
 export const MODULO_A_SERVICIO: Record<string, ServicioClave> = {
+  // Educación
   aula_virtual: 'aula-virtual',
+
+  // Comunidad / participación
+  eventos: 'actividades',
+  voluntarios: 'voluntarios',
+  proyectos: 'proyectos',
+
+  // Empresas / bienestar corporativo
+  entretenimiento: 'actividades',
 }
 
 /**

@@ -12,12 +12,17 @@ const servicioToRoute: Record<ServicioClave, string> = {
   idiomas: '/idiomas',
   'aula-virtual': '#',
   mapa: '#',
+  actividades: '/actividades',
+  voluntarios: '/participacion',
+  proyectos: '/participacion',
+  drive: '/documentos',
+  calendario: '/calendario',
 }
 
 export function SidebarServices() {
   return (
-    <div className="border-t border-gray-100 pt-4 px-2">
-      <p className="px-3 mb-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+    <div className="border-t border-slate-700 pt-4 px-2">
+      <p className="px-3 mb-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
         Servicios
       </p>
       <nav className="space-y-0.5">
@@ -26,22 +31,22 @@ export function SidebarServices() {
           const isLink = to && to !== '#'
           const content = (
             <div
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors border-l-2 border-transparent ${
-                isLink ? 'hover:bg-gray-50' : 'opacity-60'
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all border-l-2 border-transparent ${
+                isLink ? 'hover:bg-slate-700/50' : 'opacity-50'
               }`}
             >
               <div
-                className="w-9 h-9 rounded-full flex items-center justify-center text-lg flex-shrink-0"
-                style={{ backgroundColor: `${s.color}25` }}
+                className="w-9 h-9 rounded-full flex items-center justify-center text-lg flex-shrink-0 shadow-md"
+                style={{ backgroundColor: `${s.color}30` }}
               >
                 {s.icono}
               </div>
               <div className="flex-1 min-w-0">
-                <span className="text-sm font-medium text-gray-700 truncate block">
+                <span className="text-sm font-medium text-slate-200 truncate block">
                   {s.nombre}
                 </span>
                 {!s.activo && (
-                  <span className="text-xs text-amber-600">Próximamente</span>
+                  <span className="text-xs text-amber-400">Próximamente</span>
                 )}
               </div>
             </div>
@@ -51,7 +56,7 @@ export function SidebarServices() {
               key={s.clave}
               to={to}
               className={({ isActive }) =>
-                isActive ? '[&>div]:bg-primary/10 [&>div]:border-l-primary' : ''
+                isActive ? '[&>div]:bg-gradient-to-r [&>div]:from-primary/20 [&>div]:to-indigo-500/20 [&>div]:border-l-primary [&>div]:text-white [&>div]:shadow-lg' : ''
               }
             >
               {content}

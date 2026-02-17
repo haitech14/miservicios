@@ -35,21 +35,23 @@ export function Login() {
     <div className="min-h-screen flex">
       {/* Panel izquierdo: visual + CTA registro */}
       <div className="hidden lg:flex lg:w-1/2 relative min-h-screen overflow-hidden">
+        {/* Fondo corporativo con imagen */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1200')",
+            backgroundImage: "url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80')",
           }}
         />
+        {/* Overlay con gradiente corporativo */}
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(135deg, rgba(79,70,229,0.92) 0%, rgba(67,56,202,0.9) 50%, rgba(49,46,129,0.95) 100%)',
+            background: 'linear-gradient(135deg, rgba(26,54,93,0.95) 0%, rgba(44,82,130,0.92) 50%, rgba(79,70,229,0.95) 100%)',
           }}
         />
         <div className="relative z-10 flex flex-col justify-center items-center w-full px-8">
-          <Link to="/" className="absolute top-8 left-8 flex items-center gap-2 text-white/90 hover:text-white">
-            <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white font-bold text-sm">
+          <Link to="/" className="absolute top-8 left-8 flex items-center gap-2 text-white/90 hover:text-white transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center text-white font-bold text-sm shadow-lg border border-white/20">
               MI
             </div>
             <span className="font-bold text-lg">Servicios</span>
@@ -62,7 +64,7 @@ export function Login() {
           </p>
           <Link
             to="/registro"
-            className="px-8 py-3.5 border-2 border-white text-white font-semibold rounded-xl hover:bg-white/10 transition-colors"
+            className="px-8 py-3.5 border-2 border-white text-white font-semibold rounded-xl hover:bg-white/10 hover:border-white/80 transition-all backdrop-blur-sm shadow-lg"
           >
             CREA UNA CUENTA AHORA
           </Link>

@@ -2,13 +2,82 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
+const temasPorVertical: Record<string, any> = {
+  HaiEduCore: {
+    primary: '#1a365d',
+    secondary: '#2c5282',
+    accent: '#4299e1',
+    success: '#10b981',
+    warning: '#f59e0b',
+    error: '#ef4444',
+    background: '#ffffff',
+    surface: '#f7fafc',
+    text: '#1a202c',
+  },
+  HaiCommunity: {
+    primary: '#059669',
+    secondary: '#10b981',
+    accent: '#34d399',
+    success: '#10b981',
+    warning: '#f59e0b',
+    error: '#ef4444',
+    background: '#ffffff',
+    surface: '#f0fdf4',
+    text: '#064e3b',
+  },
+  HaiBizFlow: {
+    primary: '#1e40af',
+    secondary: '#3b82f6',
+    accent: '#60a5fa',
+    success: '#10b981',
+    warning: '#f59e0b',
+    error: '#ef4444',
+    background: '#ffffff',
+    surface: '#eff6ff',
+    text: '#1e3a8a',
+  },
+  HaiActive: {
+    primary: '#ea580c',
+    secondary: '#f97316',
+    accent: '#fb923c',
+    success: '#10b981',
+    warning: '#f59e0b',
+    error: '#ef4444',
+    background: '#ffffff',
+    surface: '#fff7ed',
+    text: '#9a3412',
+  },
+  HaiCare: {
+    primary: '#dc2626',
+    secondary: '#f87171',
+    accent: '#fca5a5',
+    success: '#10b981',
+    warning: '#f59e0b',
+    error: '#ef4444',
+    background: '#ffffff',
+    surface: '#fef2f2',
+    text: '#991b1b',
+  },
+  HaiFacility: {
+    primary: '#374151',
+    secondary: '#6b7280',
+    accent: '#9ca3af',
+    success: '#10b981',
+    warning: '#f59e0b',
+    error: '#ef4444',
+    background: '#ffffff',
+    surface: '#f9fafb',
+    text: '#111827',
+  },
+}
+
 const verticalesData = [
-  { slug: 'HaiEduCore', nombre: 'HaiEduCore', descripcion: 'Centros educativos, institutos, universidades', perfil: 'universidad', destinatarios: 'Estudiantes, docentes' },
-  { slug: 'HaiBizFlow', nombre: 'HaiBizFlow', descripcion: 'Empresas, pymes, corporativos', perfil: 'empresa', destinatarios: 'Empleados' },
-  { slug: 'HaiActive', nombre: 'HaiActive', descripcion: 'Gimnasios, clubes deportivos', perfil: 'gimnasio', destinatarios: 'Socios / miembros' },
-  { slug: 'HaiCare', nombre: 'HaiCare', descripcion: 'Clínicas, centros médicos', perfil: 'clinica', destinatarios: 'Pacientes' },
-  { slug: 'HaiCommunity', nombre: 'HaiCommunity', descripcion: 'ONG, asociaciones, cooperativas', perfil: 'comunidad', destinatarios: 'Socios, voluntarios' },
-  { slug: 'HaiFacility', nombre: 'HaiFacility', descripcion: 'Coworkings, centros comerciales', perfil: 'facility', destinatarios: 'Residentes, arrendatarios' },
+  { slug: 'HaiEduCore', nombre: 'HaiEduCore', descripcion: 'Centros educativos, institutos, universidades', perfil: 'universidad', destinatarios: 'Estudiantes, docentes', temaColores: JSON.stringify(temasPorVertical.HaiEduCore) },
+  { slug: 'HaiBizFlow', nombre: 'HaiBizFlow', descripcion: 'Empresas, pymes, corporativos', perfil: 'empresa', destinatarios: 'Empleados', temaColores: JSON.stringify(temasPorVertical.HaiBizFlow) },
+  { slug: 'HaiActive', nombre: 'HaiActive', descripcion: 'Gimnasios, clubes deportivos', perfil: 'gimnasio', destinatarios: 'Socios / miembros', temaColores: JSON.stringify(temasPorVertical.HaiActive) },
+  { slug: 'HaiCare', nombre: 'HaiCare', descripcion: 'Clínicas, centros médicos', perfil: 'clinica', destinatarios: 'Pacientes', temaColores: JSON.stringify(temasPorVertical.HaiCare) },
+  { slug: 'HaiCommunity', nombre: 'HaiCommunity', descripcion: 'ONG, asociaciones, cooperativas', perfil: 'comunidad', destinatarios: 'Socios, voluntarios', temaColores: JSON.stringify(temasPorVertical.HaiCommunity) },
+  { slug: 'HaiFacility', nombre: 'HaiFacility', descripcion: 'Coworkings, centros comerciales', perfil: 'facility', destinatarios: 'Residentes, arrendatarios', temaColores: JSON.stringify(temasPorVertical.HaiFacility) },
 ]
 
 const modulosData: { clave: string; nombre: string; verticalSlug: string; esBase: boolean; icono?: string }[] = [

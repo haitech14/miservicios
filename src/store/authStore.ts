@@ -22,6 +22,15 @@ export function setStoredUser(user: User | null) {
   }
 }
 
+export function clearStoredUser() {
+  try {
+    localStorage.removeItem(USER_KEY)
+    localStorage.removeItem(AUTH_KEY)
+  } catch {
+    // Ignorar errores de acceso a localStorage (por ejemplo, en modo privado estricto)
+  }
+}
+
 export function isAuthenticated(): boolean {
   return localStorage.getItem(AUTH_KEY) === 'true'
 }

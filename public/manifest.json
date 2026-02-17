@@ -1,17 +1,48 @@
 {
-  "name": "Mi Servicios - UNMSM",
-  "short_name": "Mi Servicios",
-  "description": "Plataforma de servicios universitarios UNMSM",
+  "name": "HaiCommunity",
+  "short_name": "HaiCommunity",
+  "description": "Plataforma SaaS para gestión de comunidades y organizaciones",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1a365d",
   "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["education", "productivity"],
   "icons": [
     {
       "src": "/vite.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/vite.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/vite.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Comedor",
+      "short_name": "Comedor",
+      "description": "Reservar tickets del comedor",
+      "url": "/comedor",
+      "icons": [{ "src": "/vite.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Carnet Virtual",
+      "short_name": "Carnet",
+      "description": "Ver mi carnet virtual",
+      "url": "/carnet",
+      "icons": [{ "src": "/vite.svg", "sizes": "96x96" }]
     }
   ]
 }

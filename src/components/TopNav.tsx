@@ -16,8 +16,10 @@ export function TopNav() {
           key={to}
           to={to}
           className={({ isActive }) =>
-            `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
-              isActive ? 'bg-primary/10 text-primary font-medium' : 'text-gray-600 hover:bg-gray-50'
+            `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
+              isActive 
+                ? 'bg-gradient-to-r from-primary/20 to-indigo-500/20 text-white font-medium border-l-2 border-primary shadow-lg' 
+                : 'text-slate-300 hover:bg-slate-700/50 hover:text-white'
             }`
           }
         >
