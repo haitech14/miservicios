@@ -7,7 +7,7 @@ interface BottomSheetProps {
   title?: string
 }
 
-export const BottomSheet = memo(function BottomSheet({ isOpen, onClose, children, title }: BottomSheetProps) {
+function BottomSheetComponent({ isOpen, onClose, children, title }: BottomSheetProps) {
   const [dragY, setDragY] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const startY = useRef(0)
@@ -117,4 +117,6 @@ export const BottomSheet = memo(function BottomSheet({ isOpen, onClose, children
       </div>
     </>
   )
-})
+}
+
+export const BottomSheet = memo(BottomSheetComponent)
